@@ -1,0 +1,14 @@
+titulo: LeeContigo IA
+numero: "01"
+tipo: hackathon          # hackathon | personal | universidad
+evento: Hackathon futurX 2026
+estado: completado       # completado | en_desarrollo | pausado
+descripcion: Web de lectura para niños hecha con IA, en equipo.
+rol: "[QUÉ HICISTE TÚ]"
+stack:
+  - "[TECNOLOGÍAS]"
+retos: "[QUÉ FUE LO MÁS DIFÍCIL Y CÓMO LO RESOLVISTE]"
+resultado: "[RESULTADO]"
+# demo: https://...      # quita el # y pon la URL cuando la tengas
+# codigo: https://...
+destacado: false

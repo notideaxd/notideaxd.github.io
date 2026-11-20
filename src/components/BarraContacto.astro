@@ -1,9 +1,8 @@
 ---
-import { contacto, esMarcador } from '../config/contacto';
+import { obtenerContacto } from '../lib/contenido';
 
-function href(id: string, url: string) {
-  return id === 'correo' ? `mailto:${url}` : url;
-}
+// Los enlaces salen de src/content/perfil/perfil.yaml.
+const contacto = await obtenerContacto();
 ---
 
 <aside
@@ -13,11 +12,10 @@ function href(id: string, url: string) {
   <ul class="flex flex-row items-center justify-center gap-1.5 md:flex-col">
     {
       contacto.map((enlace) => {
-        const pendiente = esMarcador(enlace.url);
-        const externo = !pendiente && enlace.id !== 'correo';
+        const externo = !enlace.pendiente && enlace.url.startsWith('http');
         return (
           <li>
-            {pendiente ? (
+            {enlace.pendiente ? (
               <span
                 title={`${enlace.etiqueta}: ${enlace.url}`}
                 class="flex h-11 w-11 items-center justify-center border border-dashed border-borde text-texto-2"
@@ -27,7 +25,7 @@ function href(id: string, url: string) {
               </span>
             ) : (
               <a
-                href={href(enlace.id, enlace.url)}
+                href={enlace.url}
                 aria-label={enlace.etiqueta}
                 target={externo ? '_blank' : undefined}
                 rel={externo ? 'noopener noreferrer' : undefined}

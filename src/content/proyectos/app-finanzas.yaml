@@ -1,0 +1,13 @@
+titulo: App de finanzas
+numero: "03"
+tipo: personal
+evento: Proyecto personal
+estado: en_desarrollo
+descripcion: App móvil personal para llevar mis cuentas.
+rol: Desarrollo completo
+stack:
+  - "[TECNOLOGÍAS]"
+retos: "[QUÉ FUE LO MÁS DIFÍCIL Y CÓMO LO RESOLVISTE]"
+# demo: https://...
+# codigo: https://...
+destacado: false

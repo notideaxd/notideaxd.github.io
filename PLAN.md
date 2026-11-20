@@ -24,7 +24,7 @@ No adelantar trabajo de fases futuras. Si una fase necesita un dato que no está
 
 Commit: `Fase 1: base del sitio y menú`
 
-## [ ] Fase 2: Contenido
+## [x] Fase 2: Contenido
 
 - Colecciones de contenido de Astro en `src/content/` con esquema validado:
   - `proyectos`: titulo, numero, tipo (hackathon | personal | universidad), evento, estado, descripcion, rol, stack[], demo?, codigo?, imagen?, destacado.

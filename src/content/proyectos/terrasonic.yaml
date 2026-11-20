@@ -1,0 +1,14 @@
+titulo: TerraSonic
+numero: "02"
+tipo: hackathon
+evento: NASA Space Apps Challenge 2026 · Sede Chiclayo · reto The Earth Information Jukebox
+estado: completado
+descripcion: "[QUÉ HACE, EN DOS LÍNEAS]"
+rol: "[QUÉ HICISTE TÚ]"
+stack:
+  - "[TECNOLOGÍAS]"
+retos: "[QUÉ FUE LO MÁS DIFÍCIL Y CÓMO LO RESOLVISTE]"
+resultado: "[RESULTADO]"
+# demo: https://...
+codigo: https://github.com/Nishix03/TerraSonic-NASA-Space-APPS
+destacado: true          # aparece en el Inicio

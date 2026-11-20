@@ -1,0 +1,6 @@
+# Copia este archivo por cada curso (02-curso.yaml, 03-curso.yaml...).
+titulo: "[CURSO]"
+plataforma: "[PLATAFORMA]"
+estado: pendiente        # completado | en_curso | pendiente
+avance: 0                # porcentaje de 0 a 100
+orden: 1

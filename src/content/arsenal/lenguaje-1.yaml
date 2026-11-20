@@ -1,0 +1,4 @@
+nombre: "[LENGUAJE]"
+categoria: lenguajes            # lenguajes | web_movil | bases_de_datos | herramientas | ia | idiomas
+nivel: "[NIVEL]"
+orden: 1

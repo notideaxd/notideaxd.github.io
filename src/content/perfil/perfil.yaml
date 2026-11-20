@@ -1,0 +1,17 @@
+# Tus datos de jugador. Lo que está entre corchetes aparece así en el sitio hasta que lo cambies.
+nombre: Fabio Vasquez
+nombre_completo: Fabio Andre Vasquez Torres
+titulo_jugador: "[TÍTULO]"
+ciudad: Lambayeque, Perú
+carrera: Ingeniería de Sistemas
+universidad: Universidad Católica Santo Toribio de Mogrovejo
+universidad_corta: USAT
+ciclo: 4
+ciclos_totales: 10
+sobre_mi: "[QUÉ ESTUDIAS, QUÉ TE GUSTA CONSTRUIR Y QUÉ BUSCAS]"
+enlaces:
+  github: https://github.com/notideaxd
+  correo: "[CORREO]"
+  linkedin: "[URL]"
+  # Si tienes tu CV en PDF, guárdalo como public/cv.pdf y aquí escribe: /cv.pdf
+  cv: "[CV]"

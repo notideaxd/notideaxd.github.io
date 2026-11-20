@@ -10,7 +10,7 @@ Rellena lo que sepas y deja el resto como está. Lo que quede entre corchetes ap
 - Carrera: Ingeniería de Sistemas
 - Universidad: Universidad Católica Santo Toribio de Mogrovejo (USAT)
 - Ciclo actual: 4
-- Total de ciclos de la carrera: [10?]
+- Total de ciclos de la carrera: 10
 - Sobre mí (3 líneas): [QUÉ ESTUDIAS, QUÉ TE GUSTA CONSTRUIR Y QUÉ BUSCAS]
 - GitHub: https://github.com/notideaxd
 - Correo: [CORREO]

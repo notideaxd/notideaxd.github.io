@@ -1,0 +1,4 @@
+nombre: "[BASE DE DATOS]"
+categoria: bases_de_datos            # lenguajes | web_movil | bases_de_datos | herramientas | ia | idiomas
+nivel: "[NIVEL]"
+orden: 1
