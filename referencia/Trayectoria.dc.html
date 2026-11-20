@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Trayectoria: historial, certificados y cursos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+body{margin:0}
+a{color:#ECE8E1;text-decoration:none}a:hover{color:#FFFFFF}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #0B1016; color: #ECE8E1; font-family: 'Barlow', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<nav style="display: flex; flex-wrap: wrap; align-items: stretch; justify-content: space-between; gap: 8px; background: #141C25; border-bottom: 1px solid #2A3642; font-family: 'Barlow Condensed', sans-serif">
+<div style="display: flex; flex-wrap: wrap; align-items: stretch">
+<a href="Inicio.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 44px 0 20px; background: {{accent}}; color: #0B1016; font-weight: 700; font-size: 30px; letter-spacing: 0.02em; clip-path: polygon(0 0, 100% 0, calc(100% - 26px) 100%, 0 100%)">
+<span style="font-size: 20px; border: 2px solid #0B1016; padding: 0 6px; line-height: 1.2">FV</span>
+<span>INICIO</span>
+</a>
+<a href="Proyectos.dc.html" style="display: flex; align-items: center; min-height: 52px; padding: 0 16px; font-weight: 600; font-size: 16px; letter-spacing: 0.14em; color: #C9D1D9">PROYECTOS</a>
+<a href="Trayectoria.dc.html" aria-current="page" style="display: flex; align-items: center; min-height: 52px; padding: 0 26px; background: #ECE8E1; color: #0B1016; font-weight: 700; font-size: 16px; letter-spacing: 0.14em; clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%)">TRAYECTORIA</a>
+<a href="Arsenal.dc.html" style="display: flex; align-items: center; min-height: 52px; padding: 0 16px; font-weight: 600; font-size: 16px; letter-spacing: 0.14em; color: #C9D1D9">ARSENAL</a>
+<a href="Favoritos.dc.html" style="display: flex; align-items: center; min-height: 52px; padding: 0 16px; font-weight: 600; font-size: 16px; letter-spacing: 0.14em; color: #C9D1D9">FAVORITOS</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding: 0 18px; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; color: #C9D1D9">
+<span>CICLO <span style="color: #FFFFFF">04</span></span>
+<span>CERTIFICADOS <span style="color: #FFFFFF">[N]</span></span>
+</div>
+</nav>
+
+<main style="flex: 1 1 auto; box-sizing: border-box; padding: 0 24px 32px; display: flex; flex-direction: column; gap: 24px; background-color: #101A2E; background-image: linear-gradient(180deg, #0C1424 0, #0C1424 44px, transparent 44px), linear-gradient(118deg, transparent 0, transparent 40%, #14213A 40%, #14213A 66%, transparent 66%)">
+
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 4px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.14em">
+<span style="display: flex; align-items: center; min-height: 44px; padding-right: 40px; color: #C9D1D9">▸ TRAYECTORIA</span>
+<button type="button" onClick="{{goHist}}" aria-pressed="{{isHist}}" style="min-height: 44px; padding: 0 16px; background: transparent; border: 0; border-bottom: 3px solid {{histLine}}; color: #ECE8E1; font-size: inherit; font-weight: inherit; letter-spacing: inherit; cursor: pointer">HISTORIAL</button>
+<button type="button" onClick="{{goCert}}" aria-pressed="{{isCert}}" style="min-height: 44px; padding: 0 16px; background: transparent; border: 0; border-bottom: 3px solid {{certLine}}; color: #ECE8E1; font-size: inherit; font-weight: inherit; letter-spacing: inherit; cursor: pointer">CERTIFICADOS</button>
+<button type="button" onClick="{{goCurs}}" aria-pressed="{{isCurs}}" style="min-height: 44px; padding: 0 16px; background: transparent; border: 0; border-bottom: 3px solid {{cursLine}}; color: #ECE8E1; font-size: inherit; font-weight: inherit; letter-spacing: inherit; cursor: pointer">CURSOS</button>
+</div>
+
+<sc-if value="{{isHist}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 24px">
+
+<section style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #C9D1D9">JUGADOR</span>
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #0C1424; border: 1px solid #2A3A5C">
+<span style="flex: 0 0 48px; width: 48px; height: 48px; border: 1px dashed #7A8794; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 11px">[FOTO]</span>
+<div style="display: flex; flex-direction: column; min-width: 0">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.1">Fabio Vasquez</span>
+<span style="font-size: 13px; color: #C9D1D9">Lambayeque, Perú</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 14px 12px; background: #0C1424; border: 1px solid #2A3A5C">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.1em">SOBRE MÍ</span>
+<span style="font-size: 14px; line-height: 1.5; color: #D5DBE0">[TRES LÍNEAS SOBRE TI: QUÉ ESTUDIAS, QUÉ TE GUSTA CONSTRUIR Y QUÉ BUSCAS]</span>
+</div>
+</section>
+
+<section style="flex: 3 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #C9D1D9; margin-bottom: 4px">HISTORIAL DE PARTIDAS</span>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 12px 16px; background: #123A3A; border-left: 4px solid #3DDBB4">
+<span style="flex: 0 0 56px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px">2026</span>
+<div style="flex: 3 1 240px; min-width: 0; display: flex; flex-direction: column">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.1; text-transform: uppercase">NASA Space Apps Challenge</span>
+<span style="font-size: 13px; color: #D5DBE0">Sede Chiclayo · reto The Earth Information Jukebox · proyecto TerraSonic</span>
+</div>
+<span style="flex: 1 1 120px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.12em; color: #7BE8CC">HACKATHON</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.1em">[RESULTADO]</span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 12px 16px; background: #123A3A; border-left: 4px solid #3DDBB4">
+<span style="flex: 0 0 56px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px">2026</span>
+<div style="flex: 3 1 240px; min-width: 0; display: flex; flex-direction: column">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.1; text-transform: uppercase">Hackathon futurX</span>
+<span style="font-size: 13px; color: #D5DBE0">Proyecto LeeContigo IA, en equipo</span>
+</div>
+<span style="flex: 1 1 120px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.12em; color: #7BE8CC">HACKATHON</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.1em">[RESULTADO]</span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 12px 16px; background: #1A2744; border-left: 4px solid #F2C14E">
+<span style="flex: 0 0 56px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px">HOY</span>
+<div style="flex: 3 1 240px; min-width: 0; display: flex; flex-direction: column">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.1; text-transform: uppercase">Ingeniería de Sistemas</span>
+<span style="font-size: 13px; color: #D5DBE0">Universidad Católica Santo Toribio de Mogrovejo (USAT) · 4.º ciclo</span>
+</div>
+<span style="flex: 1 1 120px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.12em; color: #F2C14E">UNIVERSIDAD</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.1em">EN CURSO</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 12px 16px; border: 1px dashed #3A4A6C; color: #C9D1D9; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.1em">[PRÓXIMA PARTIDA: TU SIGUIENTE EVENTO O LOGRO]</div>
+</section>
+
+<section style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px 16px; background: #0C1424; border: 1px solid #2A3A5C">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #C9D1D9">RANGO ACTUAL</span>
+<span style="width: 110px; height: 110px; border: 4px solid #C9D1D9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 52px">IV</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 30px; line-height: 1">CICLO 4</span>
+<div style="width: 80%; height: 4px; background: #2A3A5C" aria-hidden="true"><div style="width: 40%; height: 4px; background: #3DDBB4"></div></div>
+<span style="font-size: 13px; color: #C9D1D9">4 de 10 ciclos</span>
+</section>
+
+</div>
+</sc-if>
+
+<sc-if value="{{isCert}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 28px; padding-top: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; max-width: 900px">
+
+<div style="width: 190px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="width: 170px; height: 150px; background: {{accent}}; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center">
+<div style="width: 162px; height: 142px; background: #1A2744; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif">
+<span style="font-weight: 700; font-size: 44px; line-height: 1">B1</span>
+<span style="font-weight: 600; font-size: 12px; letter-spacing: 0.14em">INGLÉS</span>
+</div>
+</div>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em">INGLÉS B1 · OXFORD</span>
+<span style="font-size: 12px; color: #3DDBB4">Obtenido · [AÑO]</span>
+</div>
+
+<div style="width: 190px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="width: 170px; height: 150px; background: #3A4A6C; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center">
+<div style="width: 162px; height: 142px; background: #14203A; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center; color: #C9D1D9">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+</div>
+</div>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em">[CERTIFICADO 2]</span>
+<span style="font-size: 12px; color: #C9D1D9">[INSTITUCIÓN · AÑO]</span>
+</div>
+
+<div style="width: 190px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="width: 170px; height: 150px; background: #3A4A6C; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center">
+<div style="width: 162px; height: 142px; background: #14203A; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center; color: #C9D1D9">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+</div>
+</div>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em">[CERTIFICADO 3]</span>
+<span style="font-size: 12px; color: #C9D1D9">[INSTITUCIÓN · AÑO]</span>
+</div>
+
+<div style="width: 190px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<div style="width: 170px; height: 150px; background: #3A4A6C; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center">
+<div style="width: 162px; height: 142px; background: #14203A; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); display: flex; align-items: center; justify-content: center; color: #C9D1D9">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-label="Bloqueado"><rect x="5" y="11" width="14" height="9"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+</div>
+</div>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em">POR DESBLOQUEAR</span>
+<span style="font-size: 12px; color: #C9D1D9">Tu próxima meta</span>
+</div>
+
+</div>
+<span style="font-size: 13px; color: #C9D1D9; text-align: center; max-width: 520px">Cada insignia abre el certificado en grande al hacer clic. Las participaciones en hackathons también pueden ir aquí si te dieron constancia.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{isCurs}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 24px; padding-top: 8px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 36px; line-height: 1">PASE DE APRENDIZAJE 2026</span>
+<span style="font-size: 14px; color: #D5DBE0">Cursos que llevas fuera de la universidad. Cada nivel es un curso; al terminarlo se desbloquea su certificado.</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #0C1424; border: 1px solid #3DDBB4">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #3DDBB4">NIVEL 01 · COMPLETADO</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.05; text-transform: uppercase">[CURSO TERMINADO]</span>
+<span style="font-size: 13px; color: #C9D1D9">[PLATAFORMA · HORAS]</span>
+<div style="height: 4px; background: #3DDBB4" aria-hidden="true"></div>
+</div>
+
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #0C1424; border: 1px solid {{accent}}">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: {{accent}}">NIVEL 02 · EN CURSO</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.05; text-transform: uppercase">[CURSO ACTUAL]</span>
+<span style="font-size: 13px; color: #C9D1D9">[PLATAFORMA · AVANCE]</span>
+<div style="height: 4px; background: #2A3A5C" aria-hidden="true"><div style="width: 50%; height: 4px; background: {{accent}}"></div></div>
+</div>
+
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #0C1424; border: 1px dashed #3A4A6C">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #C9D1D9">NIVEL 03 · BLOQUEADO</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.05; text-transform: uppercase">[CURSO QUE QUIERES LLEVAR]</span>
+<span style="font-size: 13px; color: #C9D1D9">[PLATAFORMA]</span>
+<div style="height: 4px; background: #2A3A5C" aria-hidden="true"></div>
+</div>
+
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #0C1424; border: 1px dashed #3A4A6C">
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: #C9D1D9">NIVEL 04 · BLOQUEADO</span>
+<span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.05; text-transform: uppercase">[CURSO QUE QUIERES LLEVAR]</span>
+<span style="font-size: 13px; color: #C9D1D9">[PLATAFORMA]</span>
+<div style="height: 4px; background: #2A3A5C" aria-hidden="true"></div>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2C14E","options":["#F2C14E","#FF5B5B","#5CC8FF","#7BE0A3"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#F2C14E';
+const tab = (this.state && this.state.tab) || 'hist';
+return {
+accent: accent,
+isHist: tab === 'hist',
+isCert: tab === 'cert',
+isCurs: tab === 'curs',
+histLine: tab === 'hist' ? accent : 'transparent',
+certLine: tab === 'cert' ? accent : 'transparent',
+cursLine: tab === 'curs' ? accent : 'transparent',
+goHist: () => this.setState({ tab: 'hist' }),
+goCert: () => this.setState({ tab: 'cert' }),
+goCurs: () => this.setState({ tab: 'curs' })
+};
+}
+}
+</script>
+</body>
+</html>
