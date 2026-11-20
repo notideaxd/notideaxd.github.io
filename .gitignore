@@ -1,0 +1,17 @@
+# dependencias
+node_modules/
+
+# salida de compilación
+dist/
+.astro/
+
+# registros
+npm-debug.log*
+
+# entorno
+.env
+.env.*
+
+# sistema
+.DS_Store
+Thumbs.db

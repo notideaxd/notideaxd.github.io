@@ -1,0 +1,51 @@
+---
+import { contacto, esMarcador } from '../config/contacto';
+
+function href(id: string, url: string) {
+  return id === 'correo' ? `mailto:${url}` : url;
+}
+---
+
+<aside
+  aria-label="Contacto"
+  class="border-t border-linea bg-barra px-1 py-2.5 font-titulo text-sm font-bold md:border-t-0 md:border-l"
+>
+  <ul class="flex flex-row items-center justify-center gap-1.5 md:flex-col">
+    {
+      contacto.map((enlace) => {
+        const pendiente = esMarcador(enlace.url);
+        const externo = !pendiente && enlace.id !== 'correo';
+        return (
+          <li>
+            {pendiente ? (
+              <span
+                title={`${enlace.etiqueta}: ${enlace.url}`}
+                class="flex h-11 w-11 items-center justify-center border border-dashed border-borde text-texto-2"
+              >
+                <span aria-hidden="true">{enlace.abreviatura}</span>
+                <span class="sr-only">{`${enlace.etiqueta} (pendiente: ${enlace.url})`}</span>
+              </span>
+            ) : (
+              <a
+                href={href(enlace.id, enlace.url)}
+                aria-label={enlace.etiqueta}
+                target={externo ? '_blank' : undefined}
+                rel={externo ? 'noopener noreferrer' : undefined}
+                class="flex h-11 w-11 items-center justify-center bg-linea text-texto hover:bg-borde"
+              >
+                {enlace.id === 'correo' ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" />
+                    <path d="M3 6l9 7 9-7" />
+                  </svg>
+                ) : (
+                  <span aria-hidden="true">{enlace.abreviatura}</span>
+                )}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</aside>

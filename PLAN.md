@@ -12,7 +12,7 @@ No adelantar trabajo de fases futuras. Si una fase necesita un dato que no está
 
 ---
 
-## [ ] Fase 1: Base del sitio
+## [x] Fase 1: Base del sitio
 
 - Inicializar Astro + Tailwind en la carpeta actual. Ya existe un repositorio git: no reiniciarlo ni borrar `CLAUDE.md`, `AGENTS.md`, `PLAN.md`, `DATOS.md`, `referencia/` ni `README.md`.
 - Cargar las fuentes Barlow y Barlow Condensed y definir los colores de `CLAUDE.md` como tokens de Tailwind.

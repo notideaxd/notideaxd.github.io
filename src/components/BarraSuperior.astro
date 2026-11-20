@@ -1,0 +1,59 @@
+---
+import { pantallas, type IdPantalla } from '../config/pantallas';
+
+interface Props {
+  activa: IdPantalla;
+}
+
+const { activa } = Astro.props;
+const [inicio, ...resto] = pantallas;
+const inicioActiva = activa === 'inicio';
+---
+
+<header class="border-b border-linea bg-barra font-titulo">
+  <nav
+    aria-label="Pantallas"
+    class="sin-scrollbar flex items-stretch justify-between gap-2 overflow-x-auto"
+  >
+    <ul class="flex shrink-0 items-stretch">
+      <li class="flex">
+        <a
+          href={inicio.ruta}
+          aria-current={inicioActiva ? 'page' : undefined}
+          class:list={[
+            'corte-inicio flex min-h-[52px] items-center gap-2.5 py-1 pr-11 pl-5 text-[30px] font-bold tracking-[0.02em] text-fondo',
+            inicioActiva ? 'bg-texto' : 'bg-acento',
+          ]}
+        >
+          <span class="border-2 border-fondo px-1.5 text-xl leading-tight" aria-hidden="true">FV</span>
+          <span>{inicio.etiqueta}</span>
+        </a>
+      </li>
+      {
+        resto.map((p) => {
+          const esActiva = p.id === activa;
+          return (
+            <li class="flex">
+              <a
+                href={p.ruta}
+                aria-current={esActiva ? 'page' : undefined}
+                class:list={[
+                  'flex min-h-[52px] items-center text-base tracking-[0.14em] whitespace-nowrap',
+                  esActiva
+                    ? 'corte-pestana bg-texto px-[26px] font-bold text-fondo'
+                    : 'px-4 font-semibold text-texto-2 hover:text-white',
+                ]}
+              >
+                {p.etiqueta}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <!-- Contadores de la barra (se llenan con el contenido en fases siguientes) -->
+    <div class="flex shrink-0 items-center gap-[18px] px-[18px] text-[15px] font-semibold tracking-[0.1em] whitespace-nowrap text-texto-2">
+      <slot />
+    </div>
+  </nav>
+</header>

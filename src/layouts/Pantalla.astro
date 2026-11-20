@@ -1,0 +1,49 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import BarraSuperior from '../components/BarraSuperior.astro';
+import BarraContacto from '../components/BarraContacto.astro';
+import { obtenerPantalla, type IdPantalla } from '../config/pantallas';
+import '../styles/global.css';
+
+interface Props {
+  pantalla: IdPantalla;
+  titulo: string;
+  descripcion?: string;
+}
+
+const { pantalla, titulo, descripcion = 'Portafolio personal de Fabio Vasquez.' } = Astro.props;
+const { fondo, acento } = obtenerPantalla(pantalla);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo} · Fabio Vasquez</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content={fondo} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap"
+    />
+    <ClientRouter />
+  </head>
+  <body
+    data-pantalla={pantalla}
+    style={`--acento: ${acento}; --fondo: ${fondo};`}
+    class="flex min-h-dvh flex-col bg-fondo text-texto"
+  >
+    <BarraSuperior activa={pantalla}>
+      <slot name="contadores" />
+    </BarraSuperior>
+    <div class="flex flex-1 flex-col md:flex-row">
+      <main id="contenido" class="min-w-0 flex-1 bg-ambiente">
+        <slot />
+      </main>
+      <BarraContacto />
+    </div>
+  </body>
+</html>

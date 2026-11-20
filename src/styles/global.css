@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/* Tokens de diseño (ver CLAUDE.md). Se usan como clases: bg-panel, text-texto-2, border-linea... */
+@theme {
+  --font-titulo: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-texto: "Barlow", system-ui, sans-serif;
+
+  /* Base */
+  --color-fondo: #0b1016;
+  --color-panel: #121a23;
+  --color-panel-alto: #18222d;
+  --color-barra: #141c25;
+  --color-linea: #2a3642;
+  --color-borde: #56626e;
+  --color-texto: #ece8e1;
+  --color-texto-2: #c9d1d9;
+  --color-positivo: #3ddbb4;
+  --color-dorado: #f2c14e;
+
+  /* Ambiente de cada pantalla */
+  --color-inicio-fondo: #0b1016;
+  --color-inicio-franja: #c9b37a;
+  --color-inicio-acento: #ff5b5b;
+  --color-proyectos-fondo: #0f1a22;
+  --color-proyectos-acento: #ff5b5b;
+  --color-trayectoria-fondo: #101a2e;
+  --color-trayectoria-acento: #f2c14e;
+  --color-arsenal-fondo: #16233a;
+  --color-arsenal-acento: #5cc8ff;
+  --color-favoritos-fondo: #1b1424;
+  --color-favoritos-acento: #ff4fd8;
+
+  /* Acento y fondo de la pantalla actual (los fija el layout en <body>) */
+  --color-acento: var(--acento);
+  --color-ambiente: var(--fondo);
+
+  /* Esquinas siempre rectas */
+  --radius-*: initial;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--font-texto);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Foco visible en todo lo interactivo, con el color de acento */
+  :focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Pestaña INICIO: corte diagonal a la derecha */
+  .corte-inicio {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 26px) 100%, 0 100%);
+  }
+  /* Pestaña activa: paralelogramo */
+  .corte-pestana {
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+  }
+}
+
+@layer utilities {
+  /* Barra superior desplazable en celular sin mostrar la barra de scroll */
+  .sin-scrollbar {
+    scrollbar-width: none;
+  }
+  .sin-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
