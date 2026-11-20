@@ -1,8 +1,211 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import TituloProvisional from '../components/TituloProvisional.astro';
+import MarcadorImagen from '../components/MarcadorImagen.astro';
+import FichaProyecto from '../components/proyectos/FichaProyecto.astro';
+import { proyectosOrdenados } from '../lib/contenido';
+import { filtros } from '../lib/proyectos';
+
+const proyectos = await proyectosOrdenados();
+const inicial = proyectos[0]?.id;
+const CASILLAS_BLOQUEADAS = 3;
 ---
 
-<Pantalla pantalla="proyectos" titulo="Proyectos">
-  <TituloProvisional titulo="Proyectos" fondoTexto="01" />
+<Pantalla
+  pantalla="proyectos"
+  titulo="Proyectos"
+  descripcion="Proyectos de Fabio Vasquez: hackathons, proyectos personales y de la universidad."
+>
+  <div data-pantalla-proyectos class="fondo-proyectos flex flex-1 flex-col gap-4 px-4 pt-4 pb-7 sm:px-6">
+    <p class="font-titulo text-[13px] font-semibold tracking-[0.18em] text-texto-2">▸ PROYECTOS</p>
+
+    <div class="grid flex-1 content-start items-stretch gap-6 lg:content-normal md:grid-cols-[minmax(250px,290px)_minmax(0,1fr)] lg:grid-cols-[minmax(250px,290px)_minmax(0,3fr)_minmax(260px,1.2fr)]">
+      <!-- Izquierda: filtros y cuadrícula -->
+      <section aria-label="Lista de proyectos" class="flex flex-col gap-2.5 font-titulo">
+        <div role="group" aria-label="Filtrar por tipo" class="flex flex-wrap gap-1 text-xs font-bold tracking-[0.08em]">
+          {
+            filtros.map((f, i) => (
+              <button
+                type="button"
+                data-filtro={f.valor}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class="min-h-11 flex-[1_1_60px] cursor-pointer border border-borde bg-panel text-texto hover:bg-panel-alto aria-pressed:border-texto aria-pressed:bg-texto aria-pressed:text-fondo"
+              >
+                {f.etiqueta}
+              </button>
+            ))
+          }
+        </div>
+
+        <ul class="grid grid-cols-3 gap-1.5">
+          {
+            proyectos.map((p) => (
+              <li data-casilla data-tipo={p.data.tipo}>
+                <button
+                  type="button"
+                  data-proyecto={p.id}
+                  aria-pressed={p.id === inicial ? 'true' : 'false'}
+                  aria-label={`${p.data.numero}, ${p.data.titulo}`}
+                  class="flex aspect-square w-full cursor-pointer flex-col items-start justify-between border-2 border-[#3A4652] bg-[#0C141A] p-1.5 text-left text-texto hover:border-borde aria-pressed:border-acento aria-pressed:bg-texto aria-pressed:text-fondo"
+                >
+                  <span class="text-[26px] leading-none font-bold" aria-hidden="true">{p.data.numero}</span>
+                  <span class="text-[13px] leading-[1.05] font-bold uppercase" aria-hidden="true">{p.data.titulo}</span>
+                </button>
+              </li>
+            ))
+          }
+          {
+            Array.from({ length: CASILLAS_BLOQUEADAS }, () => (
+              <li class="flex aspect-square items-center justify-center border-2 border-dashed border-[#3A4652] text-texto-2">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-label="Próximo proyecto, bloqueado">
+                  <rect x="5" y="11" width="14" height="9" />
+                  <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                </svg>
+              </li>
+            ))
+          }
+        </ul>
+        <p data-sin-resultados hidden role="status" class="font-texto text-sm text-texto-2">Aún no hay proyectos de este tipo.</p>
+        <p class="font-texto text-xs leading-snug text-texto-2">Las casillas con candado son mis próximos proyectos.</p>
+      </section>
+
+      <!-- Centro: captura con el número gigante detrás -->
+      <section aria-label="Vista del proyecto" class="relative flex md:order-last md:col-span-2 lg:order-none lg:col-span-1 min-h-[340px] items-center justify-center overflow-hidden lg:min-h-[600px]">
+        <span aria-hidden="true" class="absolute top-[18%] left-[6%] h-2.5 w-[40%] -rotate-[32deg] bg-acento"></span>
+        <span aria-hidden="true" class="absolute right-[6%] bottom-[22%] h-1.5 w-[30%] -rotate-[32deg] bg-acento"></span>
+        {
+          proyectos.map((p) => (
+            <div data-vista={p.id} hidden={p.id !== inicial} class="absolute inset-0 flex items-center justify-center">
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center font-titulo text-[clamp(160px,22vw,300px)] leading-[0.82] font-bold whitespace-nowrap text-[#182A36] select-none"
+              >
+                {p.data.numero}
+                <br />
+                {p.data.numero}
+              </span>
+              <div class="corte-captura relative aspect-[16/10] w-[88%] border border-borde lg:w-[78%]">
+                <MarcadorImagen texto={`[CAPTURA O VIDEO DE ${p.data.titulo.toUpperCase()}]`} class="h-full w-full bg-[#0C141A]" />
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
+      <!-- Derecha: ficha -->
+      <section aria-label="Ficha del proyecto" class="flex flex-col lg:justify-center">
+        {proyectos.map((p) => <FichaProyecto proyecto={p} visible={p.id === inicial} />)}
+      </section>
+    </div>
+  </div>
 </Pantalla>
+
+<script>
+  // Selección de proyecto sin recargar: ?p=<id> en la URL, filtros y pestañas.
+  const raiz = () => document.querySelector<HTMLElement>('[data-pantalla-proyectos]');
+
+  function seleccionar(id: string, { actualizarUrl = false } = {}) {
+    const r = raiz();
+    if (!r) return;
+    const existe = r.querySelector(`[data-ficha="${CSS.escape(id)}"]`);
+    if (!existe) return;
+
+    r.querySelectorAll<HTMLElement>('[data-ficha]').forEach((el) => (el.hidden = el.dataset.ficha !== id));
+    r.querySelectorAll<HTMLElement>('[data-vista]').forEach((el) => (el.hidden = el.dataset.vista !== id));
+    r.querySelectorAll<HTMLButtonElement>('[data-proyecto]').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.proyecto === id)),
+    );
+
+    if (actualizarUrl) {
+      const url = new URL(location.href);
+      if (url.searchParams.get('p') !== id) {
+        url.searchParams.set('p', id);
+        // Sin estado: el enrutador de Astro ignora estas entradas y las manejamos aquí.
+        history.pushState(null, '', url);
+      }
+    }
+  }
+
+  function filtrar(valor: string) {
+    const r = raiz();
+    if (!r) return;
+    r.querySelectorAll<HTMLButtonElement>('[data-filtro]').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.filtro === valor)),
+    );
+    const visibles: HTMLElement[] = [];
+    r.querySelectorAll<HTMLElement>('[data-casilla]').forEach((li) => {
+      const ver = valor === 'todos' || li.dataset.tipo === valor;
+      li.hidden = !ver;
+      if (ver) visibles.push(li);
+    });
+    const aviso = r.querySelector<HTMLElement>('[data-sin-resultados]');
+    if (aviso) aviso.hidden = visibles.length > 0;
+
+    // Si el proyecto seleccionado quedó fuera del filtro, se pasa al primero visible.
+    const seleccionadoVisible = visibles.some((li) => li.querySelector('[aria-pressed="true"]'));
+    const primero = visibles[0]?.querySelector<HTMLButtonElement>('[data-proyecto]');
+    if (!seleccionadoVisible && primero?.dataset.proyecto) {
+      seleccionar(primero.dataset.proyecto, { actualizarUrl: true });
+    }
+  }
+
+  function activarPestana(tab: HTMLElement, enfocar = false) {
+    const lista = tab.closest('[role="tablist"]');
+    if (!lista) return;
+    lista.querySelectorAll<HTMLElement>('[role="tab"]').forEach((t) => {
+      const activa = t === tab;
+      t.setAttribute('aria-selected', String(activa));
+      t.tabIndex = activa ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
+      if (panel) panel.hidden = !activa;
+    });
+    if (enfocar) tab.focus();
+  }
+
+  function sincronizarConUrl() {
+    const id = new URL(location.href).searchParams.get('p');
+    const r = raiz();
+    const primero = r?.querySelector<HTMLButtonElement>('[data-proyecto]')?.dataset.proyecto;
+    const destino = id ?? primero;
+    if (destino) seleccionar(destino);
+  }
+
+  function iniciar() {
+    const r = raiz();
+    if (!r) return;
+    sincronizarConUrl();
+
+    r.addEventListener('click', (e) => {
+      const el = e.target as Element;
+      const boton = el.closest<HTMLButtonElement>('[data-proyecto]');
+      if (boton?.dataset.proyecto) return seleccionar(boton.dataset.proyecto, { actualizarUrl: true });
+      const filtro = el.closest<HTMLButtonElement>('[data-filtro]');
+      if (filtro?.dataset.filtro) return filtrar(filtro.dataset.filtro);
+      const tab = el.closest<HTMLElement>('[role="tab"]');
+      if (tab) activarPestana(tab);
+    });
+
+    // Flechas, Inicio y Fin para moverse entre pestañas.
+    r.addEventListener('keydown', (e) => {
+      const tab = (e.target as Element).closest<HTMLElement>('[role="tab"]');
+      if (!tab) return;
+      const tabs = [...(tab.closest('[role="tablist"]')?.querySelectorAll<HTMLElement>('[role="tab"]') ?? [])];
+      const i = tabs.indexOf(tab);
+      const destino =
+        e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length]
+        : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length]
+        : e.key === 'Home' ? tabs[0]
+        : e.key === 'End' ? tabs[tabs.length - 1]
+        : undefined;
+      if (destino) {
+        e.preventDefault();
+        activarPestana(destino, true);
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', iniciar);
+  // Atrás / Adelante del navegador entre proyectos.
+  window.addEventListener('popstate', () => {
+    if (raiz()) sincronizarConUrl();
+  });
+</script>

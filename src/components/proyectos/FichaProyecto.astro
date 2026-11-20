@@ -1,0 +1,117 @@
+---
+// Ficha de un proyecto (columna derecha). Todas las fichas se escriben al compilar
+// y el script de la página muestra solo la seleccionada.
+import type { CollectionEntry } from 'astro:content';
+import { esMarcador } from '../../lib/contenido';
+import { etiquetaTipo, etiquetaEstado } from '../../lib/proyectos';
+
+interface Props {
+  proyecto: CollectionEntry<'proyectos'>;
+  visible: boolean;
+}
+
+const { proyecto, visible } = Astro.props;
+const { id } = proyecto;
+const d = proyecto.data;
+
+const pestanas = [
+  { clave: 'info', etiqueta: 'INFO' },
+  { clave: 'rol', etiqueta: 'ROL' },
+  { clave: 'stack', etiqueta: 'STACK' },
+  { clave: 'retos', etiqueta: 'RETOS' },
+] as const;
+
+const tituloBloque = 'font-titulo text-[15px] font-bold tracking-[0.1em]';
+const textoBloque = 'text-sm leading-relaxed text-[#D5DBE0]';
+---
+
+<article data-ficha={id} hidden={!visible} aria-labelledby={`titulo-${id}`} class="flex flex-col gap-3.5">
+  <div class="flex items-center gap-3.5">
+    <span class="flex h-[34px] w-[34px] shrink-0 rotate-45 items-center justify-center border-2 border-acento" aria-hidden="true">
+      <span class="-rotate-45 font-titulo text-base font-bold">{d.numero}</span>
+    </span>
+    <h1 id={`titulo-${id}`} class="font-titulo text-[clamp(38px,5vw,52px)] leading-[0.95] font-bold break-words text-acento uppercase">
+      {d.titulo}
+    </h1>
+  </div>
+
+  <div class="flex flex-col gap-1 border-b-2 border-borde pb-2">
+    <span class="font-titulo text-[17px] font-semibold tracking-[0.08em] text-acento uppercase">{d.evento}</span>
+    <span class="text-[13px] text-texto-2">{etiquetaTipo[d.tipo]} · {etiquetaEstado[d.estado]}</span>
+  </div>
+
+  <div role="tablist" aria-label={`Detalles de ${d.titulo}`} class="flex gap-1 font-titulo text-[13px] font-bold tracking-[0.1em]">
+    {
+      pestanas.map((p, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${id}-${p.clave}`}
+          aria-controls={`panel-${id}-${p.clave}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-pestana
+          class="min-h-14 flex-1 cursor-pointer bg-[#1B2A35] text-texto hover:bg-[#243746] aria-selected:bg-texto aria-selected:text-fondo"
+        >
+          {p.etiqueta}
+        </button>
+      ))
+    }
+  </div>
+
+  <div role="tabpanel" id={`panel-${id}-info`} aria-labelledby={`tab-${id}-info`} tabindex="0" class="flex flex-col gap-3">
+    <div class="flex flex-col gap-1">
+      <h2 class={tituloBloque}>QUÉ ES</h2>
+      <p class={textoBloque}>{d.descripcion}</p>
+    </div>
+    {
+      d.resultado && (
+        <div class="flex flex-col gap-1">
+          <h2 class={tituloBloque}>RESULTADO</h2>
+          <p class={textoBloque}>{d.resultado}</p>
+        </div>
+      )
+    }
+  </div>
+
+  <div role="tabpanel" id={`panel-${id}-rol`} aria-labelledby={`tab-${id}-rol`} tabindex="0" hidden class="flex flex-col gap-1">
+    <h2 class={tituloBloque}>MI ROL</h2>
+    <p class={textoBloque}>{d.rol}</p>
+  </div>
+
+  <div role="tabpanel" id={`panel-${id}-stack`} aria-labelledby={`tab-${id}-stack`} tabindex="0" hidden class="flex flex-col gap-1.5">
+    <h2 class={tituloBloque}>STACK</h2>
+    <ul class="flex flex-wrap gap-1.5 font-titulo text-[13px] font-semibold tracking-[0.08em]">
+      {d.stack.map((tec) => <li class="border border-borde px-2.5 py-1">{tec}</li>)}
+    </ul>
+  </div>
+
+  <div role="tabpanel" id={`panel-${id}-retos`} aria-labelledby={`tab-${id}-retos`} tabindex="0" hidden class="flex flex-col gap-1">
+    <h2 class={tituloBloque}>RETOS</h2>
+    <p class={textoBloque}>{d.retos ?? '[RETOS DEL PROYECTO]'}</p>
+  </div>
+
+  {
+    (d.demo || d.codigo) && (
+      <div class="mt-2 flex flex-col items-end gap-2">
+        {d.demo && !esMarcador(d.demo) && (
+          <a href={d.demo} target="_blank" rel="noopener noreferrer" class="block border border-texto p-[3px]">
+            <span class="flex min-h-11 min-w-[190px] items-center justify-center bg-texto font-titulo text-[17px] font-bold tracking-[0.14em] text-fondo">
+              VER DEMO
+            </span>
+          </a>
+        )}
+        {d.codigo && !esMarcador(d.codigo) && (
+          <a
+            href={d.codigo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex min-h-12 min-w-[198px] items-center justify-center border border-texto bg-panel font-titulo text-[17px] font-bold tracking-[0.14em] hover:bg-panel-alto"
+          >
+            VER CÓDIGO
+          </a>
+        )}
+      </div>
+    )
+  }
+</article>

@@ -103,6 +103,26 @@
     background-image: radial-gradient(#3a4856 1.2px, transparent 1.3px);
     background-size: 9px 9px;
   }
+  /* Captura del proyecto: paralelogramo */
+  .corte-captura {
+    clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+  }
+  /* Fondo de Proyectos */
+  .fondo-proyectos {
+    background-color: var(--color-proyectos-fondo);
+    background-image: linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 30%,
+      #14232d 30%,
+      #14232d 52%,
+      transparent 52%,
+      transparent 70%,
+      #14232d 70%,
+      #14232d 78%,
+      transparent 78%
+    );
+  }
   /* Fondo del Inicio: franjas diagonales de borde duro */
   .fondo-inicio {
     background-color: var(--color-inicio-fondo);

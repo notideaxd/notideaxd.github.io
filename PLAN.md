@@ -50,7 +50,7 @@ Guía: `referencia/Inicio.dc.html`.
 
 Commit: `Fase 3: pantalla de Inicio`
 
-## [ ] Fase 4: Proyectos
+## [x] Fase 4: Proyectos
 
 Guía: `referencia/Proyectos.dc.html`.
 
