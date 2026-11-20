@@ -103,6 +103,21 @@
     background-image: radial-gradient(#3a4856 1.2px, transparent 1.3px);
     background-size: 9px 9px;
   }
+  /* Hexágono de insignias y rango */
+  .corte-hexagono {
+    clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  }
+  /* Fondo de Trayectoria: banda superior oscura y franja diagonal */
+  .fondo-trayectoria {
+    background-color: var(--color-trayectoria-fondo);
+    background-image:
+      linear-gradient(180deg, #0c1424 0, #0c1424 44px, transparent 44px),
+      linear-gradient(118deg, transparent 0, transparent 40%, #14213a 40%, #14213a 66%, transparent 66%);
+  }
+  /* Ventana modal: fondo oscuro detrás */
+  dialog::backdrop {
+    background: rgb(5 8 12 / 0.8);
+  }
   /* Captura del proyecto: paralelogramo */
   .corte-captura {
     clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);

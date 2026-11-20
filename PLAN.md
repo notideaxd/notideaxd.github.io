@@ -62,7 +62,7 @@ Guía: `referencia/Proyectos.dc.html`.
 
 Commit: `Fase 4: pantalla de Proyectos`
 
-## [ ] Fase 5: Trayectoria
+## [x] Fase 5: Trayectoria
 
 Guía: `referencia/Trayectoria.dc.html`.
 

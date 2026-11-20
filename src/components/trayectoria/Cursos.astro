@@ -1,0 +1,50 @@
+---
+import { coleccionOrdenada, dosDigitos } from '../../lib/contenido';
+
+const cursos = await coleccionOrdenada('cursos');
+const temporada = new Date().getFullYear();
+
+const estilo = {
+  completado: { borde: 'border-solid border-positivo', texto: 'text-positivo', barra: 'bg-positivo', etiqueta: 'COMPLETADO' },
+  en_curso: { borde: 'border-solid border-acento', texto: 'text-acento', barra: 'bg-acento', etiqueta: 'EN CURSO' },
+  pendiente: { borde: 'border-dashed border-[#3A4A6C]', texto: 'text-texto-2', barra: 'bg-texto-2', etiqueta: 'PENDIENTE' },
+} as const;
+---
+
+<div class="flex flex-col gap-6 pt-2">
+  <div class="flex flex-col gap-1">
+    <h2 class="font-titulo text-[clamp(28px,4vw,36px)] leading-none font-bold">PASE DE APRENDIZAJE {temporada}</h2>
+    <p class="text-sm text-[#D5DBE0]">
+      Cursos que llevo fuera de la universidad. Cada nivel es un curso; al terminarlo se desbloquea su certificado.
+    </p>
+  </div>
+
+  <ol class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    {
+      cursos.map(({ data: c }, i) => {
+        const s = estilo[c.estado];
+        return (
+          <li class:list={['flex min-w-0 flex-col gap-2.5 border bg-[#0C1424] p-4', s.borde]}>
+            <span class:list={['font-titulo text-[13px] font-semibold tracking-[0.14em]', s.texto]}>
+              NIVEL {dosDigitos(i + 1)} · {s.etiqueta}
+            </span>
+            <h3 class="font-titulo text-2xl leading-[1.05] font-bold uppercase">{c.titulo}</h3>
+            <p class="text-[13px] text-texto-2">
+              {c.plataforma} · {c.avance} %
+            </p>
+            <div
+              class="h-1 bg-[#2A3A5C]"
+              role="progressbar"
+              aria-label={`Avance de ${c.titulo}`}
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow={c.avance}
+            >
+              <div class:list={['h-1', s.barra]} style={`width: ${c.avance}%`} />
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</div>

@@ -1,8 +1,131 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import TituloProvisional from '../components/TituloProvisional.astro';
+import Historial from '../components/trayectoria/Historial.astro';
+import Certificados from '../components/trayectoria/Certificados.astro';
+import Cursos from '../components/trayectoria/Cursos.astro';
+import { obtenerResumen, dosDigitos } from '../lib/contenido';
+
+const r = await obtenerResumen();
+const pestanas = [
+  { clave: 'historial', etiqueta: 'HISTORIAL' },
+  { clave: 'certificados', etiqueta: 'CERTIFICADOS' },
+  { clave: 'cursos', etiqueta: 'CURSOS' },
+] as const;
 ---
 
-<Pantalla pantalla="trayectoria" titulo="Trayectoria">
-  <TituloProvisional titulo="Trayectoria" fondoTexto="IV" />
+<Pantalla
+  pantalla="trayectoria"
+  titulo="Trayectoria"
+  descripcion="Trayectoria de Fabio Vasquez: historial de hackathons y universidad, certificados y cursos."
+>
+  <Fragment slot="contadores">
+    <span>CICLO <span class="text-white">{dosDigitos(r.ciclo)}</span></span>
+    <span>CERTIFICADOS <span class="text-white">{dosDigitos(r.certificados)}</span></span>
+  </Fragment>
+
+  <div data-pantalla-trayectoria class="fondo-trayectoria flex flex-1 flex-col gap-6 px-4 pb-8 sm:px-6">
+    <div class="sin-scrollbar flex items-stretch gap-1 overflow-x-auto font-titulo text-sm font-semibold tracking-[0.14em]">
+      <h1 class="flex min-h-11 shrink-0 items-center pr-6 text-texto-2 sm:pr-10">▸ TRAYECTORIA</h1>
+      <div role="tablist" aria-label="Secciones de la trayectoria" class="flex shrink-0">
+        {
+          pestanas.map((p, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${p.clave}`}
+              aria-controls={`panel-${p.clave}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-seccion={p.clave}
+              class="min-h-11 cursor-pointer border-b-[3px] border-transparent px-4 text-texto hover:text-white aria-selected:border-acento"
+            >
+              {p.etiqueta}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div role="tabpanel" id="panel-historial" aria-labelledby="tab-historial" tabindex="-1">
+      <Historial />
+    </div>
+    <div role="tabpanel" id="panel-certificados" aria-labelledby="tab-certificados" tabindex="-1" hidden>
+      <Certificados />
+    </div>
+    <div role="tabpanel" id="panel-cursos" aria-labelledby="tab-cursos" tabindex="-1" hidden>
+      <Cursos />
+    </div>
+  </div>
 </Pantalla>
+
+<script>
+  // Sub-pestañas (?tab=...) y ventana de certificados.
+  const raiz = () => document.querySelector<HTMLElement>('[data-pantalla-trayectoria]');
+
+  function activar(clave: string, { enfocar = false, actualizarUrl = false } = {}) {
+    const r = raiz();
+    const tab = r?.querySelector<HTMLElement>(`[role="tab"][data-seccion="${CSS.escape(clave)}"]`);
+    if (!r || !tab) return;
+    r.querySelectorAll<HTMLElement>('[role="tab"]').forEach((t) => {
+      const activa = t === tab;
+      t.setAttribute('aria-selected', String(activa));
+      t.tabIndex = activa ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
+      if (panel) panel.hidden = !activa;
+    });
+    if (enfocar) tab.focus();
+    // En celular la barra de pestañas se desplaza: deja visible la activa.
+    tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (actualizarUrl) {
+      const url = new URL(location.href);
+      if (clave === 'historial') url.searchParams.delete('tab');
+      else url.searchParams.set('tab', clave);
+      // replaceState conserva el estado del enrutador de Astro.
+      history.replaceState(history.state, '', url);
+    }
+  }
+
+  function iniciar() {
+    const r = raiz();
+    if (!r) return;
+    activar(new URL(location.href).searchParams.get('tab') ?? 'historial');
+
+    r.addEventListener('click', (e) => {
+      const el = e.target as Element;
+      const tab = el.closest<HTMLElement>('[role="tab"]');
+      if (tab?.dataset.seccion) return activar(tab.dataset.seccion, { actualizarUrl: true });
+
+      const abrir = el.closest<HTMLElement>('[data-abrir-certificado]');
+      if (abrir) {
+        const id = CSS.escape(abrir.dataset.abrirCertificado ?? '');
+        r.querySelector<HTMLDialogElement>(`dialog[data-certificado="${id}"]`)?.showModal();
+        return;
+      }
+      if (el.closest('[data-cerrar-certificado]')) {
+        el.closest('dialog')?.close();
+        return;
+      }
+      // Clic en el fondo oscuro (fuera del contenido) cierra la ventana.
+      if (el instanceof HTMLDialogElement) el.close();
+    });
+
+    r.addEventListener('keydown', (e) => {
+      const tab = (e.target as Element).closest<HTMLElement>('[role="tab"]');
+      if (!tab) return;
+      const tabs = [...r.querySelectorAll<HTMLElement>('[role="tab"]')];
+      const i = tabs.indexOf(tab);
+      const destino =
+        e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length]
+        : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length]
+        : e.key === 'Home' ? tabs[0]
+        : e.key === 'End' ? tabs[tabs.length - 1]
+        : undefined;
+      if (destino?.dataset.seccion) {
+        e.preventDefault();
+        activar(destino.dataset.seccion, { enfocar: true, actualizarUrl: true });
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', iniciar);
+</script>

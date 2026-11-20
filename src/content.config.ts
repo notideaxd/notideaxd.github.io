@@ -109,6 +109,7 @@ const perfil = defineCollection({
       linkedin: textoOMarcador,
       cv: textoOMarcador,
     }),
+    proxima_partida: textoOMarcador,
     notas_version: z.object({
       version: z.string(),
       texto: textoOMarcador,
