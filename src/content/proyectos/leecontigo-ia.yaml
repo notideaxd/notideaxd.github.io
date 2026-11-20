@@ -11,4 +11,5 @@ retos: "[QUÉ FUE LO MÁS DIFÍCIL Y CÓMO LO RESOLVISTE]"
 resultado: "[RESULTADO]"
 # demo: https://...      # quita el # y pon la URL cuando la tengas
 # codigo: https://...
+# imagen: leecontigo-ia.jpg   # opcional: nombre de la captura en src/assets/img/proyectos/
 destacado: false

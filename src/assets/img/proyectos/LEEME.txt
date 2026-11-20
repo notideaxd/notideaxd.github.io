@@ -1,0 +1,16 @@
+CAPTURAS DE PROYECTOS
+=====================
+
+Nombre exacto:   el mismo nombre que el archivo del proyecto en src/content/proyectos/
+                 leecontigo-ia.yaml   ->  leecontigo-ia.jpg
+                 terrasonic.yaml      ->  terrasonic.jpg
+                 app-finanzas.yaml    ->  app-finanzas.jpg
+                 (también vale .png o .webp)
+Tamaño:          1600 x 1000 px (proporción 16:10). Una captura de pantalla completa sirve.
+
+Si prefieres otro nombre, escríbelo en el .yaml del proyecto:
+                 imagen: captura-final.png
+
+Dónde se ve:
+- Proyectos: captura grande del centro
+- Inicio: fondo de la tarjeta DESTACADO (si el proyecto es el destacado)

@@ -4,5 +4,5 @@ origen: Jujutsu Kaisen
 por_que: "[POR QUÉ]"
 momento: "[MOMENTO]"
 lo_que_me_dejo: "[QUÉ TOMAS DE ÉL PARA TU FORMA DE TRABAJAR]"
-# imagen: /img/favoritos/02-yuta-okkotsu.webp
+# imagen: 02-yuta-okkotsu.jpg     # opcional: nombre de la imagen en src/assets/img/favoritos/
 orden: 2

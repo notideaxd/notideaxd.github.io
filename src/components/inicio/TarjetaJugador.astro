@@ -1,5 +1,5 @@
 ---
-import MarcadorImagen from '../MarcadorImagen.astro';
+import Imagen from '../Imagen.astro';
 import { obtenerPerfil, dosDigitos } from '../../lib/contenido';
 
 const perfil = await obtenerPerfil();
@@ -10,7 +10,17 @@ const perfil = await obtenerPerfil();
     <div class="bg-acento px-2.5 py-1 font-titulo text-sm font-bold tracking-[0.08em] text-fondo">
       NVL {dosDigitos(perfil.ciclo)}
     </div>
-    <MarcadorImagen texto="[TU FOTO O ARTE]" class="h-[240px] w-full shrink-0" />
+    <Imagen
+      carpeta="perfil"
+      nombre="tarjeta"
+      alt={`Foto de ${perfil.nombre}`}
+      marcador="[TU FOTO O ARTE]"
+      class="h-[240px] w-full shrink-0"
+      anchos={[200, 400]}
+      sizes="184px"
+      encuadre="object-top"
+      prioridad
+    />
     <div class="w-full border-t-2 border-positivo py-1 text-center font-titulo text-[13px] font-bold tracking-[0.18em] text-positivo">
       LISTO
     </div>

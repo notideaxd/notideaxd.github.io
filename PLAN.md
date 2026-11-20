@@ -82,7 +82,7 @@ Guías: `referencia/Arsenal.dc.html` y `referencia/Favoritos.dc.html`.
 
 Commit: `Fase 6: Arsenal y Favoritos`
 
-## [ ] Fase 7: Imágenes
+## [x] Fase 7: Imágenes
 
 - Crear `public/img/` con subcarpetas `perfil/`, `proyectos/`, `certificados/` y `favoritos/`, cada una con un `LEEME.txt` que diga qué archivo va ahí, su nombre exacto y el tamaño recomendado.
 - Todas las imágenes con el componente de imagen de Astro (optimización y `alt`), y un marcador visible si el archivo todavía no existe.

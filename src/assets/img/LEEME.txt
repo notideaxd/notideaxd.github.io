@@ -1,0 +1,20 @@
+IMÁGENES DEL PORTAFOLIO
+=======================
+
+Suelta tus imágenes en estas carpetas. Astro las optimiza solo (las convierte a WebP
+y genera tamaños más pequeños para celular), así que puedes usar fotos grandes.
+
+Formatos aceptados: .jpg, .jpeg, .png, .webp, .avif
+
+- perfil/        tu foto o arte de la tarjeta de jugador
+- proyectos/     capturas de tus proyectos
+- certificados/  imágenes de tus certificados
+- favoritos/     arte de tus favoritos
+
+Mientras un archivo no exista, el sitio muestra un recuadro con su marcador, por ejemplo
+"[TU FOTO O ARTE]". En cuanto agregas el archivo, aparece la imagen.
+
+Cada carpeta tiene su propio LEEME.txt con el nombre exacto y el tamaño recomendado.
+Para ver el cambio: guarda el archivo y recarga la página (con npm run dev corriendo).
+
+Importante: usa solo fotos tuyas o imágenes que tengas derecho a publicar.

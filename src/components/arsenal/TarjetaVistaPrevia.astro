@@ -1,6 +1,6 @@
 ---
 // Vista previa compacta de la tarjeta de jugador del Inicio.
-import MarcadorImagen from '../MarcadorImagen.astro';
+import Imagen from '../Imagen.astro';
 import { obtenerPerfil } from '../../lib/contenido';
 
 const perfil = await obtenerPerfil();
@@ -10,7 +10,17 @@ const perfil = await obtenerPerfil();
   <h2 id="titulo-tarjeta" class="font-titulo text-xl font-bold tracking-[0.04em]">TARJETA DE JUGADOR</h2>
   <div class="corte-tarjeta h-[360px] w-[150px] bg-acento p-0.5">
     <div class="corte-tarjeta flex h-full flex-col items-center gap-2 bg-[#101820]">
-      <MarcadorImagen texto="[ARTE DE TU TARJETA]" class="h-[210px] w-full shrink-0 [&>span]:text-xs" />
+      <Imagen
+        carpeta="perfil"
+        nombre="tarjeta"
+        alt={`Foto de ${perfil.nombre}`}
+        marcador="[ARTE DE TU TARJETA]"
+        class="h-[210px] w-full shrink-0"
+        claseMarcador="[&>span]:text-xs"
+        anchos={[160, 320]}
+        sizes="150px"
+        encuadre="object-top"
+      />
       <span class="font-titulo text-lg font-bold text-dorado">{perfil.nombre}</span>
       <span class="px-2 text-center text-[11px] text-texto-2">{perfil.titulo_jugador}</span>
     </div>

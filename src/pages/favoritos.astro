@@ -1,6 +1,8 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import MarcadorImagen from '../components/MarcadorImagen.astro';
+import { Image } from 'astro:assets';
+import Imagen from '../components/Imagen.astro';
+import { buscarImagen, nombreImagen } from '../lib/imagenes';
 import FichaFavorito from '../components/favoritos/FichaFavorito.astro';
 import { coleccionOrdenada, obtenerResumen, dosDigitos } from '../lib/contenido';
 import { universos, type Universo } from '../lib/etiquetas';
@@ -51,20 +53,34 @@ const total = favoritos.length;
 
         <ul class="grid grid-cols-4 gap-[5px]">
           {
-            favoritos.map((f) => (
-              <li data-casilla data-universo={f.data.universo}>
-                <button
-                  type="button"
-                  data-favorito={f.id}
-                  aria-pressed={f.id === inicial ? 'true' : 'false'}
-                  aria-label={`${dosDigitos(f.data.orden)}, ${f.data.nombre}, ${universos[f.data.universo]}`}
-                  class="flex aspect-square min-h-14 w-full cursor-pointer flex-col items-start justify-between border-2 border-[#4A3A5C] bg-[#120D18] p-[5px] text-texto hover:border-borde aria-pressed:border-acento aria-pressed:bg-texto aria-pressed:text-fondo"
-                >
-                  <span class="text-xl leading-none font-bold" aria-hidden="true">{dosDigitos(f.data.orden)}</span>
-                  <span class="text-[11px] font-semibold tracking-[0.08em]" aria-hidden="true">{universos[f.data.universo]}</span>
-                </button>
-              </li>
-            ))
+            favoritos.map((f) => {
+              const retrato = buscarImagen('favoritos', nombreImagen(f));
+              return (
+                <li data-casilla data-universo={f.data.universo}>
+                  <button
+                    type="button"
+                    data-favorito={f.id}
+                    aria-pressed={f.id === inicial ? 'true' : 'false'}
+                    aria-label={`${dosDigitos(f.data.orden)}, ${f.data.nombre}, ${universos[f.data.universo]}`}
+                    class:list={[
+                      'relative flex aspect-square min-h-14 w-full cursor-pointer flex-col items-start justify-between overflow-hidden border-2 border-[#4A3A5C] bg-[#120D18] p-[5px] text-texto hover:border-borde aria-pressed:border-acento',
+                      // Sin retrato, la casilla elegida se pinta clara; con retrato, la marca el borde.
+                      !retrato && 'aria-pressed:bg-texto aria-pressed:text-fondo',
+                    ]}
+                  >
+                    {retrato && (
+                      <Image src={retrato} alt="" widths={[80, 160]} sizes="72px" class="absolute inset-0 h-full w-full object-cover object-top" />
+                    )}
+                    <span class:list={['relative text-xl leading-none font-bold', retrato && 'bg-fondo/85 px-1']} aria-hidden="true">
+                      {dosDigitos(f.data.orden)}
+                    </span>
+                    <span class:list={['relative text-[11px] font-semibold tracking-[0.08em]', retrato && 'bg-fondo/85 px-1']} aria-hidden="true">
+                      {universos[f.data.universo]}
+                    </span>
+                  </button>
+                </li>
+              );
+            })
           }
         </ul>
         <p class="font-texto text-xs leading-snug text-texto-2">Cada casilla lleva el retrato de uno de mis favoritos. Haz clic para cambiar la selección.</p>
@@ -89,9 +105,16 @@ const total = favoritos.length;
                 {universos[f.data.universo]}
               </span>
               <div class="corte-arte relative z-[2] h-[min(540px,80%)] w-[320px] max-w-[80%]">
-                <MarcadorImagen
-                  texto={`[ARTE DE ${f.data.nombre.replace(/^\[|\]$/g, '').toUpperCase()}]`}
-                  class="patron-puntos-morado h-full w-full [&>span]:max-w-[60%] [&>span]:bg-[#120D18]"
+                <Imagen
+                  carpeta="favoritos"
+                  nombre={nombreImagen(f)}
+                  alt={`Arte de ${f.data.nombre}`}
+                  marcador={`[ARTE DE ${f.data.nombre.replace(/^\[|\]$/g, '').toUpperCase()}]`}
+                  class="h-full w-full"
+                  claseMarcador="patron-puntos-morado [&>span]:max-w-[60%] [&>span]:bg-[#120D18]"
+                  anchos={[320, 640]}
+                  sizes="320px"
+                  encuadre="object-top"
                 />
               </div>
             </div>

@@ -1,10 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import { obtenerPerfil } from '../../lib/contenido';
+import { buscarImagen, nombreImagen } from '../../lib/imagenes';
 
 const [destacado] = await getCollection('proyectos', (p) => p.data.destacado);
 // En la tarjeta solo cabe el nombre del evento: "NASA Space Apps Challenge 2026 · Sede..." → primera parte.
 const eventoCorto = destacado?.data.evento.split(' · ')[0];
+// Si el proyecto tiene captura, se usa de fondo de la tarjeta.
+const captura = destacado && buscarImagen('proyectos', nombreImagen(destacado));
 const { notas_version } = await obtenerPerfil();
 ---
 
@@ -13,11 +17,16 @@ const { notas_version } = await obtenerPerfil();
     destacado && (
       <a
         href={`/proyectos?p=${destacado.id}`}
-        class="patron-puntos flex h-[250px] flex-col justify-end gap-0.5 border border-borde p-3 hover:border-texto"
+        class="patron-puntos relative flex h-[250px] flex-col justify-end overflow-hidden border border-borde hover:border-texto"
       >
-        <span class="text-xs font-semibold tracking-[0.14em] text-dorado">DESTACADO</span>
-        <span class="text-[28px] leading-none font-bold uppercase">{destacado.data.titulo}</span>
-        <span class="text-[13px] font-semibold tracking-[0.12em] text-texto-2 uppercase">{eventoCorto}</span>
+        {captura && (
+          <Image src={captura} alt="" widths={[240, 480]} sizes="200px" class="absolute inset-0 h-full w-full object-cover" />
+        )}
+        <span class:list={['relative flex flex-col gap-0.5 p-3', captura && 'bg-panel-alto/90']}>
+          <span class="text-xs font-semibold tracking-[0.14em] text-dorado">DESTACADO</span>
+          <span class="text-[28px] leading-none font-bold uppercase">{destacado.data.titulo}</span>
+          <span class="text-[13px] font-semibold tracking-[0.12em] text-texto-2 uppercase">{eventoCorto}</span>
+        </span>
       </a>
     )
   }

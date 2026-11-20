@@ -1,6 +1,7 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import MarcadorImagen from '../components/MarcadorImagen.astro';
+import Imagen from '../components/Imagen.astro';
+import { nombreImagen } from '../lib/imagenes';
 import FichaProyecto from '../components/proyectos/FichaProyecto.astro';
 import { proyectosOrdenados } from '../lib/contenido';
 import { filtros } from '../lib/proyectos';
@@ -84,7 +85,16 @@ const CASILLAS_BLOQUEADAS = 3;
                 {p.data.numero}
               </span>
               <div class="corte-captura relative aspect-[16/10] w-[88%] border border-borde lg:w-[78%]">
-                <MarcadorImagen texto={`[CAPTURA O VIDEO DE ${p.data.titulo.toUpperCase()}]`} class="h-full w-full bg-[#0C141A]" />
+                <Imagen
+                  carpeta="proyectos"
+                  nombre={nombreImagen(p)}
+                  alt={`Captura de ${p.data.titulo}`}
+                  marcador={`[CAPTURA O VIDEO DE ${p.data.titulo.toUpperCase()}]`}
+                  class="h-full w-full"
+                  claseMarcador="bg-[#0C141A]"
+                  anchos={[640, 1280]}
+                  sizes="(min-width: 1024px) 50vw, 90vw"
+                />
               </div>
             </div>
           ))

@@ -1,0 +1,19 @@
+ARTE DE FAVORITOS
+=================
+
+Nombre exacto:   el mismo nombre que el archivo del favorito en src/content/favoritos/
+                 01-gojo.yaml   ->  01-gojo.jpg
+                 06-messi.yaml  ->  06-messi.jpg
+                 (también vale .png o .webp)
+Tamaño:          640 x 1080 px, vertical (cuerpo completo). La parte de arriba se ve siempre.
+
+Si prefieres otro nombre, escríbelo en el .yaml del favorito:
+                 imagen: messi-copa.png
+
+Dónde se ve:
+- Favoritos: arte grande del centro
+- Favoritos: retrato pequeño de la casilla (recortado en cuadrado, desde arriba)
+
+Importante: el arte de personajes, jugadores o bandas suele tener derechos de autor.
+Usa imágenes que tengas permiso de publicar (por ejemplo, dibujos tuyos o arte con
+licencia libre).

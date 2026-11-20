@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import MarcadorImagen from '../MarcadorImagen.astro';
+import Imagen from '../Imagen.astro';
+import { nombreImagen } from '../../lib/imagenes';
 import { esMarcador } from '../../lib/contenido';
 
 const certificados = (await getCollection('certificados')).sort((a, b) => a.data.anio.localeCompare(b.data.anio));
@@ -48,7 +49,9 @@ const certificados = (await getCollection('certificados')).sort((a, b) => a.data
   <p class="max-w-[520px] text-center text-[13px] text-texto-2">Haz clic en una insignia para ver el certificado en grande.</p>
 
   {
-    certificados.map(({ id, data: c }) => (
+    certificados.map((entrada) => {
+      const { id, data: c } = entrada;
+      return (
       <dialog
         data-certificado={id}
         aria-labelledby={`cert-titulo-${id}`}
@@ -73,7 +76,16 @@ const certificados = (await getCollection('certificados')).sort((a, b) => a.data
               CERRAR
             </button>
           </div>
-          <MarcadorImagen texto={`[IMAGEN DEL CERTIFICADO: ${c.titulo.toUpperCase()}]`} class="aspect-[4/3] w-full" />
+          <Imagen
+            carpeta="certificados"
+            nombre={nombreImagen(entrada)}
+            alt={`Certificado de ${c.titulo}, ${c.institucion}`}
+            marcador={`[IMAGEN DEL CERTIFICADO: ${c.titulo.toUpperCase()}]`}
+            class="aspect-[4/3] w-full"
+            anchos={[720, 1440]}
+            sizes="(min-width: 760px) 680px, calc(100vw - 72px)"
+            ajuste="contain"
+          />
           {c.enlace && !esMarcador(c.enlace) && (
             <a
               href={c.enlace}
@@ -86,6 +98,7 @@ const certificados = (await getCollection('certificados')).sort((a, b) => a.data
           )}
         </div>
       </dialog>
-    ))
+      );
+    })
   }
 </div>

@@ -1,0 +1,14 @@
+IMÁGENES DE CERTIFICADOS
+========================
+
+Nombre exacto:   el mismo nombre que el archivo del certificado en src/content/certificados/
+                 ingles-b1-oxford.yaml  ->  ingles-b1-oxford.jpg
+                 (también vale .png o .webp)
+Tamaño:          1600 x 1200 px (proporción 4:3). Se muestra entero, sin recortar,
+                 así que un escaneo o captura del PDF en horizontal queda bien.
+
+Si prefieres otro nombre, escríbelo en el .yaml del certificado:
+                 imagen: oxford-b1.png
+
+Dónde se ve:
+- Trayectoria > Certificados: ventana que se abre al hacer clic en la insignia

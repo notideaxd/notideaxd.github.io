@@ -1,0 +1,11 @@
+FOTO O ARTE DE TU TARJETA DE JUGADOR
+====================================
+
+Nombre exacto:   tarjeta.jpg   (también vale tarjeta.png o tarjeta.webp)
+Tamaño:          800 x 1100 px, vertical. Mínimo recomendado: 400 x 550 px.
+Encuadre:        la parte de arriba se ve siempre; deja tu cara en el tercio superior.
+
+Dónde se ve:
+- Inicio: tarjeta de jugador del centro
+- Trayectoria: mini tarjeta del Historial (recortada en cuadrado)
+- Arsenal: vista previa de la tarjeta

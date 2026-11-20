@@ -4,5 +4,5 @@ origen: "[EQUIPO]"
 por_que: "[POR QUÉ]"
 momento: "[MOMENTO]"
 lo_que_me_dejo: "[QUÉ TOMAS DE ÉL PARA TU FORMA DE TRABAJAR]"
-# imagen: /img/favoritos/09-favorito-f1.webp
+# imagen: 09-favorito-f1.jpg     # opcional: nombre de la imagen en src/assets/img/favoritos/
 orden: 9

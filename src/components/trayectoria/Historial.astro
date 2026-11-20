@@ -1,5 +1,5 @@
 ---
-import MarcadorImagen from '../MarcadorImagen.astro';
+import Imagen from '../Imagen.astro';
 import { obtenerPerfil, coleccionOrdenada, aRomano } from '../../lib/contenido';
 
 const perfil = await obtenerPerfil();
@@ -21,7 +21,17 @@ const caja = 'border border-[#2A3A5C] bg-[#0C1424]';
   <section aria-labelledby="titulo-jugador" class="flex flex-col gap-2.5">
     <h2 id="titulo-jugador" class={etiquetaSeccion}>JUGADOR</h2>
     <div class:list={[caja, 'flex items-center gap-3 p-3']}>
-      <MarcadorImagen texto="[FOTO]" class="h-12 w-12 shrink-0 !p-0 [&>span]:border-0 [&>span]:bg-transparent [&>span]:px-0 [&>span]:text-[11px]" />
+      <Imagen
+        carpeta="perfil"
+        nombre="tarjeta"
+        alt={`Foto de ${perfil.nombre}`}
+        marcador="[FOTO]"
+        class="h-12 w-12 shrink-0"
+        claseMarcador="!p-0 [&>span]:border-0 [&>span]:bg-transparent [&>span]:px-0 [&>span]:text-[11px]"
+        anchos={[48, 96]}
+        sizes="48px"
+        encuadre="object-top"
+      />
       <div class="flex min-w-0 flex-col">
         <span class="font-titulo text-[22px] leading-tight font-bold">{perfil.nombre}</span>
         <span class="text-[13px] text-texto-2">{perfil.ciudad}</span>

@@ -11,4 +11,5 @@ retos: "[QUÉ FUE LO MÁS DIFÍCIL Y CÓMO LO RESOLVISTE]"
 resultado: "[RESULTADO]"
 # demo: https://...
 codigo: https://github.com/Nishix03/TerraSonic-NASA-Space-APPS
+# imagen: terrasonic.jpg   # opcional: nombre de la captura en src/assets/img/proyectos/
 destacado: true          # aparece en el Inicio

@@ -4,5 +4,5 @@ origen: Artista
 por_que: "[POR QUÉ]"
 momento: "[CANCIÓN FAVORITA]"
 lo_que_me_dejo: "[QUÉ TOMAS DE ÉL PARA TU FORMA DE TRABAJAR]"
-# imagen: /img/favoritos/08-gonzalo-genek.webp
+# imagen: 08-gonzalo-genek.jpg     # opcional: nombre de la imagen en src/assets/img/favoritos/
 orden: 8

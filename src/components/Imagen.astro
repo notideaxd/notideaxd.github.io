@@ -1,0 +1,59 @@
+---
+// Imagen optimizada si el archivo existe en src/assets/img/<carpeta>/; si no, un marcador visible.
+import { Image } from 'astro:assets';
+import MarcadorImagen from './MarcadorImagen.astro';
+import { buscarImagen, type CarpetaImagen } from '../lib/imagenes';
+
+interface Props {
+  carpeta: CarpetaImagen;
+  nombre: string;
+  alt: string;
+  /** Texto del marcador mientras no exista el archivo, p. ej. "[TU FOTO O ARTE]". */
+  marcador: string;
+  /** Clases de tamaño y posición: se aplican a la imagen y al marcador. */
+  class?: string;
+  /** Clases extra solo para el marcador. */
+  claseMarcador?: string;
+  /** Anchos en píxeles que Astro genera para elegir según la pantalla. */
+  anchos?: number[];
+  sizes?: string;
+  /** cover recorta para llenar; contain muestra la imagen entera (certificados). */
+  ajuste?: 'cover' | 'contain';
+  /** Encuadre al recortar, p. ej. "object-top" para retratos. */
+  encuadre?: string;
+  /** true para la imagen principal de la pantalla: se carga de inmediato. */
+  prioridad?: boolean;
+}
+
+const {
+  carpeta,
+  nombre,
+  alt,
+  marcador,
+  class: clase,
+  claseMarcador,
+  anchos = [480, 960],
+  sizes = '100vw',
+  ajuste = 'cover',
+  encuadre = 'object-center',
+  prioridad = false,
+} = Astro.props;
+
+const imagen = buscarImagen(carpeta, nombre);
+---
+
+{
+  imagen ? (
+    <Image
+      src={imagen}
+      alt={alt}
+      widths={anchos.filter((a) => a <= imagen.width).concat(anchos.some((a) => a > imagen.width) ? [imagen.width] : [])}
+      sizes={sizes}
+      loading={prioridad ? 'eager' : 'lazy'}
+      fetchpriority={prioridad ? 'high' : 'auto'}
+      class:list={[ajuste === 'cover' ? 'object-cover' : 'object-contain bg-[#0C141A]', encuadre, clase]}
+    />
+  ) : (
+    <MarcadorImagen texto={marcador} class:list={[clase, claseMarcador]} />
+  )
+}
