@@ -15,3 +15,7 @@ enlaces:
   linkedin: "[URL]"
   # Si tienes tu CV en PDF, guárdalo como public/cv.pdf y aquí escribe: /cv.pdf
   cv: "[CV]"
+# Texto de "Notas de la versión" en el Inicio
+notas_version:
+  version: "1.0"
+  texto: "[ÚLTIMO CAMBIO DEL PORTAFOLIO]"

@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import { obtenerPerfil } from '../../lib/contenido';
+
+const [destacado] = await getCollection('proyectos', (p) => p.data.destacado);
+// En la tarjeta solo cabe el nombre del evento: "NASA Space Apps Challenge 2026 · Sede..." → primera parte.
+const eventoCorto = destacado?.data.evento.split(' · ')[0];
+const { notas_version } = await obtenerPerfil();
+---
+
+<section aria-label="Destacado y novedades" class="flex flex-col gap-1.5 font-titulo">
+  {
+    destacado && (
+      <a
+        href={`/proyectos?p=${destacado.id}`}
+        class="patron-puntos flex h-[250px] flex-col justify-end gap-0.5 border border-borde p-3 hover:border-texto"
+      >
+        <span class="text-xs font-semibold tracking-[0.14em] text-dorado">DESTACADO</span>
+        <span class="text-[28px] leading-none font-bold uppercase">{destacado.data.titulo}</span>
+        <span class="text-[13px] font-semibold tracking-[0.12em] text-texto-2 uppercase">{eventoCorto}</span>
+      </a>
+    )
+  }
+  <div class="flex flex-col gap-1 border border-borde bg-panel px-3 py-2.5">
+    <h2 class="text-[17px] font-bold">NOTAS DE LA VERSIÓN</h2>
+    <p class="font-texto text-xs leading-snug text-texto-2">
+      {notas_version.version} · {notas_version.texto}
+    </p>
+  </div>
+</section>

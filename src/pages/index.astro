@@ -1,8 +1,68 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import TituloProvisional from '../components/TituloProvisional.astro';
+import Cabecera from '../components/inicio/Cabecera.astro';
+import PanelAcciones from '../components/inicio/PanelAcciones.astro';
+import TarjetaJugador from '../components/inicio/TarjetaJugador.astro';
+import Estandarte from '../components/inicio/Estandarte.astro';
+import PanelDestacado from '../components/inicio/PanelDestacado.astro';
+import { obtenerPantalla } from '../config/pantallas';
+import { obtenerResumen, aRomano, dosDigitos } from '../lib/contenido';
+
+const r = await obtenerResumen();
+const p = {
+  arsenal: obtenerPantalla('arsenal'),
+  proyectos: obtenerPantalla('proyectos'),
+  trayectoria: obtenerPantalla('trayectoria'),
+  favoritos: obtenerPantalla('favoritos'),
+};
 ---
 
-<Pantalla pantalla="inicio" titulo="Inicio">
-  <TituloProvisional titulo="Inicio" fondoTexto="FV" />
+<Pantalla
+  pantalla="inicio"
+  titulo="Inicio"
+  descripcion="Portafolio de Fabio Vasquez, estudiante de Ingeniería de Sistemas: proyectos, trayectoria, arsenal y favoritos."
+>
+  <div class="fondo-inicio flex flex-1 flex-col gap-5 px-4 pt-6 pb-7 sm:px-6">
+    <Cabecera />
+
+    <div class="grid flex-1 items-center gap-6 md:grid-cols-2 xl:grid-cols-[180px_minmax(0,1fr)_190px]">
+      <div class="order-2 xl:order-none">
+        <PanelAcciones />
+      </div>
+
+      <section
+        aria-label="Menú principal"
+        class="order-1 flex flex-col items-center gap-[22px] md:col-span-2 xl:order-none xl:col-span-1"
+      >
+        <!-- En celular: tarjeta arriba y estandartes en cuadrícula de 2. Desde 1024 px: todo en fila. -->
+        <div class="grid w-full max-w-md grid-cols-2 items-center justify-items-center gap-3 lg:flex lg:max-w-none lg:justify-center lg:gap-2">
+          <div class="w-full lg:w-auto">
+            <Estandarte href={p.arsenal.ruta} numero={dosDigitos(r.herramientas)} titulo="ARSENAL" lema={p.arsenal.lema} color={p.arsenal.acento} />
+          </div>
+          <div class="w-full lg:w-auto">
+            <Estandarte href={p.proyectos.ruta} numero={dosDigitos(r.proyectos)} titulo="PROYECTOS" lema={p.proyectos.lema} color={p.proyectos.acento} grande />
+          </div>
+          <div class="order-first col-span-2 lg:order-none">
+            <TarjetaJugador />
+          </div>
+          <div class="w-full lg:w-auto">
+            <Estandarte href={p.trayectoria.ruta} numero={aRomano(r.ciclo)} titulo="TRAYECTORIA" lema={p.trayectoria.lema} color={p.trayectoria.acento} grande />
+          </div>
+          <div class="w-full lg:w-auto">
+            <Estandarte href={p.favoritos.ruta} numero={dosDigitos(r.favoritos)} titulo="FAVORITOS" lema={p.favoritos.lema} color={p.favoritos.acento} />
+          </div>
+        </div>
+
+        <a href="/proyectos" class="block border border-acento p-1">
+          <span class="flex min-h-12 items-center justify-center bg-acento px-14 font-titulo text-[26px] font-bold tracking-[0.08em] text-fondo">
+            EMPEZAR
+          </span>
+        </a>
+      </section>
+
+      <div class="order-3 xl:order-none">
+        <PanelDestacado />
+      </div>
+    </div>
+  </div>
 </Pantalla>

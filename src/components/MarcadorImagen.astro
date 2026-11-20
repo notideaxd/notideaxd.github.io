@@ -1,0 +1,22 @@
+---
+// Recuadro de espera donde irá una foto o arte. Fabio pone los archivos después (fase 7).
+interface Props {
+  texto: string;
+  class?: string;
+}
+
+const { texto, class: clase } = Astro.props;
+---
+
+<div
+  role="img"
+  aria-label={`Imagen pendiente: ${texto}`}
+  class:list={['patron-puntos flex items-center justify-center p-3', clase]}
+>
+  <span
+    aria-hidden="true"
+    class="border border-dashed border-[#7A8794] bg-[#101820] px-2.5 py-2 text-center font-titulo text-[13px] font-semibold tracking-[0.1em]"
+  >
+    {texto}
+  </span>
+</div>

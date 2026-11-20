@@ -1,0 +1,52 @@
+---
+import { obtenerPerfil, obtenerResumen, aRomano } from '../../lib/contenido';
+
+const perfil = await obtenerPerfil();
+const r = await obtenerResumen();
+const temporada = new Date().getFullYear();
+// Barritas del contador de certificados: una encendida por certificado (mínimo 3 casillas).
+const casillas = Math.max(3, r.certificados);
+---
+
+<div class="flex flex-wrap items-start justify-between gap-5">
+  <div class="flex flex-col gap-1">
+    <span class="font-titulo text-[13px] font-semibold tracking-[0.16em] text-texto-2">PORTAFOLIO PERSONAL</span>
+    <h1 class="font-titulo text-[clamp(26px,4vw,34px)] leading-none font-bold uppercase">
+      Temporada {temporada} // Ciclo {aRomano(perfil.ciclo)}
+    </h1>
+    <div
+      class="mt-1.5 h-1 w-[220px] max-w-full bg-linea"
+      role="progressbar"
+      aria-label="Avance de la carrera"
+      aria-valuemin="0"
+      aria-valuemax={perfil.ciclos_totales}
+      aria-valuenow={perfil.ciclo}
+      aria-valuetext={`Ciclo ${perfil.ciclo} de ${perfil.ciclos_totales}`}
+    >
+      <div class="h-1 bg-positivo" style={`width: ${r.avanceCarrera}%`}></div>
+    </div>
+    <span class="text-xs text-texto-2">
+      {perfil.carrera} · {perfil.universidad_corta} · ciclo {perfil.ciclo} de {perfil.ciclos_totales}
+    </span>
+  </div>
+
+  <dl class="flex items-center gap-[18px] font-titulo font-semibold tracking-[0.12em]">
+    <div class="flex items-center gap-2.5">
+      <dt class="text-right text-[13px] leading-tight text-texto-2">HACKATHONS<br />{temporada}</dt>
+      <dd class="flex h-11 w-11 rotate-45 items-center justify-center border border-[#7A8794]">
+        <span class="-rotate-45 text-[26px] font-bold tracking-normal">{r.hackathons}</span>
+      </dd>
+    </div>
+    <span class="h-9 w-px bg-linea" aria-hidden="true"></span>
+    <div class="flex items-center gap-2.5">
+      <dt class="text-right text-[13px] leading-tight text-texto-2">CERTIFICADOS<br /><span class="text-texto">{r.certificados}</span></dt>
+      <dd class="flex flex-col gap-1" aria-hidden="true">
+        {
+          Array.from({ length: casillas }, (_, i) => (
+            <span class:list={['h-1 w-5', i < r.certificados ? 'bg-positivo' : 'bg-borde']} />
+          ))
+        }
+      </dd>
+    </div>
+  </dl>
+</div>

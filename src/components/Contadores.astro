@@ -1,0 +1,20 @@
+---
+// Contadores de la barra superior. Cada pantalla puede pasar los suyos;
+// si no pasa ninguno, se muestran estos (ciclo, proyectos y hackathons).
+import { obtenerResumen, dosDigitos } from '../lib/contenido';
+
+const r = await obtenerResumen();
+const lista = [
+  ['CICLO', r.ciclo],
+  ['PROYECTOS', r.proyectos],
+  ['HACKATHONS', r.hackathons],
+] as const;
+---
+
+{
+  lista.map(([etiqueta, valor]) => (
+    <span>
+      {etiqueta} <span class="text-white">{dosDigitos(valor)}</span>
+    </span>
+  ))
+}

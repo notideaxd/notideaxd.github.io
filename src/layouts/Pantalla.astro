@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import BarraSuperior from '../components/BarraSuperior.astro';
 import BarraContacto from '../components/BarraContacto.astro';
+import Contadores from '../components/Contadores.astro';
 import { obtenerPantalla, type IdPantalla } from '../config/pantallas';
 import '../styles/global.css';
 
@@ -37,10 +38,10 @@ const { fondo, acento } = obtenerPantalla(pantalla);
     class="flex min-h-dvh flex-col bg-fondo text-texto"
   >
     <BarraSuperior activa={pantalla}>
-      <slot name="contadores" />
+      {Astro.slots.has('contadores') ? <slot name="contadores" /> : <Contadores />}
     </BarraSuperior>
     <div class="flex flex-1 flex-col md:flex-row">
-      <main id="contenido" class="min-w-0 flex-1 bg-ambiente">
+      <main id="contenido" class="flex min-w-0 flex-1 flex-col bg-ambiente">
         <slot />
       </main>
       <BarraContacto />

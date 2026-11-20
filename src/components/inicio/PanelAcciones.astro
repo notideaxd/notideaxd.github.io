@@ -1,0 +1,107 @@
+---
+import { obtenerPerfil, esMarcador, usuarioGithub } from '../../lib/contenido';
+
+const { enlaces } = await obtenerPerfil();
+const cvPendiente = esMarcador(enlaces.cv);
+const correoPendiente = esMarcador(enlaces.correo);
+const githubPendiente = esMarcador(enlaces.github);
+
+const boton =
+  'flex min-h-11 items-center justify-between gap-3 border-l-2 border-texto bg-panel px-3 text-sm font-semibold tracking-[0.12em] text-texto';
+const desactivado = 'border-dashed border-borde text-texto-2';
+---
+
+<section aria-label="Acciones rápidas" class="flex flex-col gap-1.5 font-titulo">
+  <div class="patron-puntos flex h-24 flex-col justify-end border border-linea px-2.5 py-2">
+    <span class="text-xs font-semibold tracking-[0.14em] text-positivo">ESTADO</span>
+    <span class="text-xl font-bold tracking-[0.06em]">DISPONIBLE</span>
+  </div>
+
+  {
+    cvPendiente ? (
+      <span class:list={[boton, desactivado]} title={`CV pendiente: ${enlaces.cv}`}>
+        <span>DESCARGAR CV</span>
+        <span class="text-xs">{enlaces.cv}</span>
+      </span>
+    ) : (
+      <a href={enlaces.cv} download class:list={[boton, 'hover:bg-panel-alto']}>
+        <span>DESCARGAR CV</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M12 4v12M6 11l6 6 6-6M5 20h14" />
+        </svg>
+      </a>
+    )
+  }
+
+  <button
+    type="button"
+    data-copiar-correo={correoPendiente ? '' : enlaces.correo}
+    data-marcador={enlaces.correo}
+    class:list={[boton, 'cursor-pointer hover:bg-panel-alto']}
+  >
+    <span>COPIAR CORREO</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <rect x="8" y="8" width="12" height="12" />
+      <path d="M4 16V4h12" />
+    </svg>
+  </button>
+  <p data-aviso-correo role="status" aria-live="polite" class="min-h-5 px-1 font-texto text-xs text-positivo"></p>
+
+  {
+    githubPendiente ? (
+      <span class:list={[boton, desactivado]}>
+        <span>GITHUB</span>
+        <span>{enlaces.github}</span>
+      </span>
+    ) : (
+      <a href={enlaces.github} target="_blank" rel="noopener noreferrer" class:list={[boton, 'hover:bg-panel-alto']}>
+        <span>GITHUB</span>
+        <span class="normal-case tracking-normal text-texto-2">{usuarioGithub(enlaces.github)}</span>
+      </a>
+    )
+  }
+</section>
+
+<script>
+  // Delegación en document: sigue funcionando tras los cambios de pantalla de View Transitions.
+  let temporizador: ReturnType<typeof setTimeout> | undefined;
+
+  async function copiar(texto: string) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    } catch {
+      // Respaldo para navegadores sin acceso al portapapeles moderno.
+      const campo = document.createElement('textarea');
+      campo.value = texto;
+      campo.setAttribute('readonly', '');
+      campo.style.position = 'fixed';
+      campo.style.opacity = '0';
+      document.body.append(campo);
+      campo.select();
+      const ok = document.execCommand('copy');
+      campo.remove();
+      return ok;
+    }
+  }
+
+  document.addEventListener('click', async (evento) => {
+    const boton = (evento.target as Element | null)?.closest<HTMLButtonElement>('[data-copiar-correo]');
+    if (!boton) return;
+    const aviso = document.querySelector<HTMLElement>('[data-aviso-correo]');
+    if (!aviso) return;
+
+    const correo = boton.dataset.copiarCorreo ?? '';
+    let mensaje: string;
+    if (!correo) {
+      mensaje = `Correo pendiente: ${boton.dataset.marcador ?? '[CORREO]'}`;
+    } else {
+      mensaje = (await copiar(correo)) ? `Correo copiado: ${correo}` : `No se pudo copiar. Escríbeme a ${correo}`;
+    }
+    aviso.textContent = mensaje;
+    clearTimeout(temporizador);
+    temporizador = setTimeout(() => {
+      aviso.textContent = '';
+    }, 3000);
+  });
+</script>

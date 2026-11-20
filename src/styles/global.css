@@ -30,12 +30,15 @@
   --color-favoritos-fondo: #1b1424;
   --color-favoritos-acento: #ff4fd8;
 
-  /* Acento y fondo de la pantalla actual (los fija el layout en <body>) */
-  --color-acento: var(--acento);
-  --color-ambiente: var(--fondo);
-
   /* Esquinas siempre rectas */
   --radius-*: initial;
+}
+
+/* Acento y fondo de la pantalla actual. Los fija el layout en <body>;
+   `inline` hace que las clases (bg-acento, text-acento...) lean la variable donde se usan. */
+@theme inline {
+  --color-acento: var(--acento);
+  --color-ambiente: var(--fondo);
 }
 
 @layer base {
@@ -48,8 +51,19 @@
 
   /* Foco visible en todo lo interactivo, con el color de acento */
   :focus-visible {
-    outline: 3px solid var(--color-acento);
+    outline: 3px solid var(--acento, var(--color-texto));
     outline-offset: 2px;
+  }
+
+  /* En la barra superior (que se desplaza) y en las pestañas con corte, el contorno
+     va por dentro para que no quede recortado. Sobre fondo claro o de acento, va oscuro. */
+  header nav a:focus-visible {
+    outline-offset: -4px;
+  }
+  .corte-inicio:focus-visible,
+  .corte-pestana:focus-visible {
+    outline-color: var(--color-fondo);
+    outline-offset: -7px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -72,6 +86,42 @@
   /* Pestaña activa: paralelogramo */
   .corte-pestana {
     clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+  }
+}
+
+@layer components {
+  /* Estandarte y tarjeta de jugador: punta inferior */
+  .corte-estandarte {
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  }
+  .corte-tarjeta {
+    clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+  }
+  /* Trama de puntos de los marcadores de imagen */
+  .patron-puntos {
+    background-color: #1d2833;
+    background-image: radial-gradient(#3a4856 1.2px, transparent 1.3px);
+    background-size: 9px 9px;
+  }
+  /* Fondo del Inicio: franjas diagonales de borde duro */
+  .fondo-inicio {
+    background-color: var(--color-inicio-fondo);
+    background-image: linear-gradient(
+      122deg,
+      transparent 0,
+      transparent 20%,
+      var(--color-inicio-franja) 20%,
+      var(--color-inicio-franja) 21.4%,
+      transparent 21.4%,
+      transparent 58%,
+      #131b24 58%,
+      #131b24 74%,
+      transparent 74%,
+      transparent 83%,
+      var(--color-inicio-franja) 83%,
+      var(--color-inicio-franja) 83.5%,
+      transparent 83.5%
+    );
   }
 }
 

@@ -38,7 +38,7 @@ Commit: `Fase 1: base del sitio y menú`
 
 Commit: `Fase 2: archivos de contenido`
 
-## [ ] Fase 3: Inicio
+## [x] Fase 3: Inicio
 
 Guía: `referencia/Inicio.dc.html`.
 

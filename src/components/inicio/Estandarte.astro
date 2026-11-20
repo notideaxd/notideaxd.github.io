@@ -1,0 +1,44 @@
+---
+// Estandarte con punta inferior que lleva a otra pantalla.
+interface Props {
+  href: string;
+  numero: string;
+  titulo: string;
+  lema: string;
+  color: string;
+  /** Los dos estandartes junto a la tarjeta son más altos. */
+  grande?: boolean;
+}
+
+const { href, numero, titulo, lema, color, grande = false } = Astro.props;
+---
+
+<a
+  href={href}
+  aria-label={`${titulo}: ${numero}. ${lema}`}
+  class:list={[
+    'group block w-full',
+    grande ? 'h-[240px] lg:h-[380px] lg:w-[142px]' : 'h-[240px] lg:h-[320px] lg:w-[124px]',
+  ]}
+>
+  <span class="corte-estandarte block h-full bg-linea p-0.5 group-hover:bg-borde">
+    <span
+      class:list={[
+        'corte-estandarte flex h-full flex-col items-center justify-center gap-2.5 bg-[#101820] px-2 pt-3.5',
+        grande ? 'pb-[60px] lg:pb-[70px]' : 'pb-[60px]',
+      ]}
+    >
+      <span
+        aria-hidden="true"
+        class:list={['font-titulo leading-none font-bold', grande ? 'text-[56px] lg:text-[72px]' : 'text-[56px]']}
+        style={`color: ${color}`}
+      >
+        {numero}
+      </span>
+      <span aria-hidden="true" class:list={['font-titulo leading-none font-bold', grande ? 'text-2xl' : 'text-[22px]']}>
+        {titulo}
+      </span>
+      <span aria-hidden="true" class="text-center text-xs text-texto-2">{lema}</span>
+    </span>
+  </span>
+</a>
