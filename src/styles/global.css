@@ -114,6 +114,36 @@
       linear-gradient(180deg, #0c1424 0, #0c1424 44px, transparent 44px),
       linear-gradient(118deg, transparent 0, transparent 40%, #14213a 40%, #14213a 66%, transparent 66%);
   }
+  /* Fondo de Arsenal */
+  .fondo-arsenal {
+    background-color: var(--color-arsenal-fondo);
+    background-image: linear-gradient(118deg, transparent 0, transparent 45%, #1b2b46 45%, #1b2b46 70%, transparent 70%);
+  }
+  /* Fondo de Favoritos */
+  .fondo-favoritos {
+    background-color: var(--color-favoritos-fondo);
+    background-image: linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 30%,
+      #241a30 30%,
+      #241a30 52%,
+      transparent 52%,
+      transparent 70%,
+      #241a30 70%,
+      #241a30 78%,
+      transparent 78%
+    );
+  }
+  .patron-puntos-morado {
+    background-color: #120d18;
+    background-image: radial-gradient(#4a3a5c 1.3px, transparent 1.4px);
+    background-size: 10px 10px;
+  }
+  /* Arte de favorito: paralelogramo alto */
+  .corte-arte {
+    clip-path: polygon(22% 0, 100% 0, 78% 100%, 0 100%);
+  }
   /* Ventana modal: fondo oscuro detrás */
   dialog::backdrop {
     background: rgb(5 8 12 / 0.8);

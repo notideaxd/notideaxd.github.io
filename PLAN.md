@@ -73,7 +73,7 @@ Guía: `referencia/Trayectoria.dc.html`.
 
 Commit: `Fase 5: pantalla de Trayectoria`
 
-## [ ] Fase 6: Arsenal y Favoritos
+## [x] Fase 6: Arsenal y Favoritos
 
 Guías: `referencia/Arsenal.dc.html` y `referencia/Favoritos.dc.html`.
 

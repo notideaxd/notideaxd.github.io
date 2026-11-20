@@ -1,8 +1,64 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import TituloProvisional from '../components/TituloProvisional.astro';
+import TarjetaVistaPrevia from '../components/arsenal/TarjetaVistaPrevia.astro';
+import { coleccionOrdenada, obtenerResumen, esMarcador, dosDigitos } from '../lib/contenido';
+import { categoriasArsenal, columnasArsenal } from '../lib/etiquetas';
+
+const r = await obtenerResumen();
+const herramientas = await coleccionOrdenada('arsenal');
+const porCategoria = (cat: string) => herramientas.filter((h) => h.data.categoria === cat);
 ---
 
-<Pantalla pantalla="arsenal" titulo="Arsenal">
-  <TituloProvisional titulo="Arsenal" fondoTexto="ARSENAL" />
+<Pantalla
+  pantalla="arsenal"
+  titulo="Arsenal"
+  descripcion="Arsenal de Fabio Vasquez: lenguajes, frameworks, bases de datos, herramientas, IA e idiomas."
+>
+  <Fragment slot="contadores">
+    <span>CICLO <span class="text-white">{dosDigitos(r.ciclo)}</span></span>
+    <span>HERRAMIENTAS <span class="text-white">{dosDigitos(r.herramientas)}</span></span>
+  </Fragment>
+
+  <div class="fondo-arsenal flex flex-1 flex-col gap-5 px-4 pt-4 pb-8 sm:px-6">
+    <h1 class="font-titulo text-[13px] font-semibold tracking-[0.18em] text-texto-2">▸ ARSENAL</h1>
+
+    <div class="grid items-start gap-[18px] sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[repeat(4,minmax(0,1fr))_200px]">
+      {
+        columnasArsenal.map((columna) => (
+          <div class="flex min-w-0 flex-col gap-2">
+            {columna.map((cat, i) => (
+              <section aria-labelledby={`cat-${cat}`} class:list={['flex flex-col gap-2', i > 0 && 'mt-3']}>
+                <h2 id={`cat-${cat}`} class="text-center font-titulo text-xl font-bold tracking-[0.04em]">
+                  {categoriasArsenal[cat]}
+                </h2>
+                <ul class="flex flex-col gap-2">
+                  {porCategoria(cat).map(({ data: h }) => {
+                    const pendiente = esMarcador(h.nombre);
+                    return (
+                      <li
+                        class:list={[
+                          'flex h-[84px] flex-col justify-between bg-[#22334F] p-2.5',
+                          pendiente
+                            ? 'border border-dashed border-[#56688A]'
+                            : cat === 'idiomas'
+                              ? 'border-b-2 border-acento'
+                              : 'border-b-2 border-[#56688A]',
+                        ]}
+                      >
+                        <span class="font-titulo text-[22px] leading-tight font-bold uppercase">{h.nombre}</span>
+                        <span class="font-titulo text-[11px] font-semibold tracking-[0.14em] text-texto-2 uppercase">{h.nivel}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+        ))
+      }
+      <div class="sm:col-span-2 lg:col-span-4 xl:col-span-1">
+        <TarjetaVistaPrevia />
+      </div>
+    </div>
+  </div>
 </Pantalla>

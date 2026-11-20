@@ -1,0 +1,46 @@
+---
+// Ficha de un favorito (columna derecha). El script de la página muestra solo la seleccionada.
+import type { CollectionEntry } from 'astro:content';
+import { dosDigitos } from '../../lib/contenido';
+import { universos } from '../../lib/etiquetas';
+
+interface Props {
+  favorito: CollectionEntry<'favoritos'>;
+  visible: boolean;
+}
+
+const { favorito, visible } = Astro.props;
+const { id } = favorito;
+const f = favorito.data;
+
+const bloques = [
+  { titulo: 'POR QUÉ ES MI FAVORITO', texto: f.por_que },
+  { titulo: 'MOMENTO FAVORITO', texto: f.momento },
+  { titulo: 'LO QUE ME DEJÓ', texto: f.lo_que_me_dejo },
+];
+---
+
+<article data-ficha={id} hidden={!visible} aria-labelledby={`fav-${id}`} class="flex flex-col gap-3.5">
+  <div class="flex items-center gap-3.5">
+    <span class="flex h-[34px] w-[34px] shrink-0 rotate-45 items-center justify-center border-2 border-acento" aria-hidden="true">
+      <span class="-rotate-45 font-titulo text-base font-bold">{dosDigitos(f.orden)}</span>
+    </span>
+    <h1 id={`fav-${id}`} class="font-titulo text-[clamp(34px,4.5vw,46px)] leading-[0.95] font-bold break-words text-acento uppercase">
+      {f.nombre}
+    </h1>
+  </div>
+
+  <div class="flex flex-col gap-1 border-b-2 border-borde pb-2">
+    <span class="font-titulo text-[17px] font-semibold tracking-[0.08em] text-acento">UNIVERSO · {universos[f.universo]}</span>
+    <span class="text-[13px] text-texto-2">{f.origen}</span>
+  </div>
+
+  {
+    bloques.map((b) => (
+      <div class="flex flex-col gap-1">
+        <h2 class="font-titulo text-[15px] font-bold tracking-[0.1em]">{b.titulo}</h2>
+        <p class="text-sm leading-relaxed text-[#D5DBE0]">{b.texto}</p>
+      </div>
+    ))
+  }
+</article>

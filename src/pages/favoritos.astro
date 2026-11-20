@@ -1,8 +1,206 @@
 ---
 import Pantalla from '../layouts/Pantalla.astro';
-import TituloProvisional from '../components/TituloProvisional.astro';
+import MarcadorImagen from '../components/MarcadorImagen.astro';
+import FichaFavorito from '../components/favoritos/FichaFavorito.astro';
+import { coleccionOrdenada, obtenerResumen, dosDigitos } from '../lib/contenido';
+import { universos, type Universo } from '../lib/etiquetas';
+
+const r = await obtenerResumen();
+const favoritos = await coleccionOrdenada('favoritos');
+const inicial = favoritos[0]?.id;
+// Un filtro por cada universo que tenga al menos un favorito, en el orden de etiquetas.ts.
+const presentes = (Object.keys(universos) as Universo[]).filter((u) => favoritos.some((f) => f.data.universo === u));
+const total = favoritos.length;
 ---
 
-<Pantalla pantalla="favoritos" titulo="Favoritos">
-  <TituloProvisional titulo="Favoritos" fondoTexto="FAVORITOS" />
+<Pantalla
+  pantalla="favoritos"
+  titulo="Favoritos"
+  descripcion="Favoritos de Fabio Vasquez: personajes, deportistas y música que lo inspiran."
+>
+  <Fragment slot="contadores">
+    <span>CICLO <span class="text-white">{dosDigitos(r.ciclo)}</span></span>
+    <span>PROYECTOS <span class="text-white">{dosDigitos(r.proyectos)}</span></span>
+    <span>FAVORITOS <span class="text-white">{dosDigitos(r.favoritos)}</span></span>
+  </Fragment>
+
+  <div data-pantalla-favoritos class="fondo-favoritos flex flex-1 flex-col gap-4 px-4 pt-4 pb-7 sm:px-6">
+    <p class="font-titulo text-[13px] font-semibold tracking-[0.18em] text-texto-2">▸ FAVORITOS</p>
+
+    <div class="grid flex-1 content-start items-stretch gap-6 md:grid-cols-[minmax(250px,290px)_minmax(0,1fr)] lg:content-normal lg:grid-cols-[minmax(250px,290px)_minmax(0,3fr)_minmax(260px,1.2fr)]">
+      <!-- Izquierda: filtros y retratos -->
+      <section aria-label="Lista de favoritos" class="flex flex-col gap-2.5 font-titulo">
+        <div class="flex items-center justify-between bg-panel px-2.5 py-2 text-xs font-semibold tracking-[0.14em] text-texto-2">
+          <span>FILTRAR POR UNIVERSO</span>
+          <span class="text-positivo" aria-live="polite"><span data-contador>{total}</span> / {total}</span>
+        </div>
+        <div role="group" aria-label="Filtrar por universo" class="flex flex-wrap gap-1 text-xs font-bold tracking-[0.08em]">
+          {
+            [['todos', 'TODOS'] as const, ...presentes.map((u) => [u, universos[u]] as const)].map(([valor, etiqueta], i) => (
+              <button
+                type="button"
+                data-filtro={valor}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class="min-h-11 flex-[1_1_56px] cursor-pointer border border-borde bg-panel px-1 text-texto hover:bg-panel-alto aria-pressed:border-texto aria-pressed:bg-texto aria-pressed:text-fondo"
+              >
+                {etiqueta}
+              </button>
+            ))
+          }
+        </div>
+
+        <ul class="grid grid-cols-4 gap-[5px]">
+          {
+            favoritos.map((f) => (
+              <li data-casilla data-universo={f.data.universo}>
+                <button
+                  type="button"
+                  data-favorito={f.id}
+                  aria-pressed={f.id === inicial ? 'true' : 'false'}
+                  aria-label={`${dosDigitos(f.data.orden)}, ${f.data.nombre}, ${universos[f.data.universo]}`}
+                  class="flex aspect-square min-h-14 w-full cursor-pointer flex-col items-start justify-between border-2 border-[#4A3A5C] bg-[#120D18] p-[5px] text-texto hover:border-borde aria-pressed:border-acento aria-pressed:bg-texto aria-pressed:text-fondo"
+                >
+                  <span class="text-xl leading-none font-bold" aria-hidden="true">{dosDigitos(f.data.orden)}</span>
+                  <span class="text-[11px] font-semibold tracking-[0.08em]" aria-hidden="true">{universos[f.data.universo]}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="font-texto text-xs leading-snug text-texto-2">Cada casilla lleva el retrato de uno de mis favoritos. Haz clic para cambiar la selección.</p>
+      </section>
+
+      <!-- Centro: arte con el universo en texto gigante detrás -->
+      <section aria-label="Arte del favorito" class="relative flex min-h-[420px] items-center justify-center overflow-hidden md:order-last md:col-span-2 lg:order-none lg:col-span-1 lg:min-h-[600px]">
+        <span aria-hidden="true" class="absolute top-[16%] left-[12%] z-[1] h-2.5 w-[46%] -rotate-[32deg] bg-acento"></span>
+        <span aria-hidden="true" class="absolute top-[30%] right-[8%] z-[1] h-1.5 w-[30%] -rotate-[32deg] bg-acento"></span>
+        <span aria-hidden="true" class="absolute bottom-[14%] left-[20%] z-[1] h-1.5 w-[34%] -rotate-[32deg] bg-texto"></span>
+        {
+          favoritos.map((f) => (
+            <div data-vista={f.id} hidden={f.id !== inicial} class="absolute inset-0 flex items-center justify-center">
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center font-titulo text-[clamp(120px,18vw,260px)] leading-[0.82] font-bold tracking-[-0.02em] whitespace-nowrap text-[#2C2038] select-none"
+              >
+                {universos[f.data.universo]}
+                <br />
+                {universos[f.data.universo]}
+                <br />
+                {universos[f.data.universo]}
+              </span>
+              <div class="corte-arte relative z-[2] h-[min(540px,80%)] w-[320px] max-w-[80%]">
+                <MarcadorImagen
+                  texto={`[ARTE DE ${f.data.nombre.replace(/^\[|\]$/g, '').toUpperCase()}]`}
+                  class="patron-puntos-morado h-full w-full [&>span]:max-w-[60%] [&>span]:bg-[#120D18]"
+                />
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
+      <!-- Derecha: ficha y botones -->
+      <section aria-label="Ficha del favorito" class="flex flex-col gap-4 lg:justify-center">
+        {favoritos.map((f) => <FichaFavorito favorito={f} visible={f.id === inicial} />)}
+        <div class="mt-2 flex flex-col items-end gap-2">
+          <a href="/proyectos" class="block border border-texto p-[3px]">
+            <span class="flex min-h-11 min-w-[190px] items-center justify-center bg-texto font-titulo text-[17px] font-bold tracking-[0.14em] text-fondo">
+              VER PROYECTOS
+            </span>
+          </a>
+          <button
+            type="button"
+            data-siguiente
+            class="min-h-12 min-w-[198px] cursor-pointer border border-texto bg-panel font-titulo text-[17px] font-bold tracking-[0.14em] hover:bg-panel-alto"
+          >
+            SIGUIENTE
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
 </Pantalla>
+
+<script>
+  // Selección de favorito sin recargar: ?f=<id> en la URL, filtros por universo y botón Siguiente.
+  const raiz = () => document.querySelector<HTMLElement>('[data-pantalla-favoritos]');
+
+  function seleccionar(id: string, { actualizarUrl = false } = {}) {
+    const r = raiz();
+    if (!r || !r.querySelector(`[data-ficha="${CSS.escape(id)}"]`)) return;
+    r.querySelectorAll<HTMLElement>('[data-ficha]').forEach((el) => (el.hidden = el.dataset.ficha !== id));
+    r.querySelectorAll<HTMLElement>('[data-vista]').forEach((el) => (el.hidden = el.dataset.vista !== id));
+    r.querySelectorAll<HTMLButtonElement>('[data-favorito]').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.favorito === id)),
+    );
+    if (actualizarUrl) {
+      const url = new URL(location.href);
+      if (url.searchParams.get('f') !== id) {
+        url.searchParams.set('f', id);
+        // Sin estado: el enrutador de Astro ignora estas entradas y las manejamos aquí.
+        history.pushState(null, '', url);
+      }
+    }
+  }
+
+  /** Botones de los favoritos que el filtro deja ver, en orden. */
+  const visibles = (r: HTMLElement) =>
+    [...r.querySelectorAll<HTMLElement>('[data-casilla]')]
+      .filter((li) => !li.hidden)
+      .map((li) => li.querySelector<HTMLButtonElement>('[data-favorito]')!);
+
+  function filtrar(valor: string) {
+    const r = raiz();
+    if (!r) return;
+    r.querySelectorAll<HTMLButtonElement>('[data-filtro]').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.filtro === valor)),
+    );
+    r.querySelectorAll<HTMLElement>('[data-casilla]').forEach((li) => {
+      li.hidden = valor !== 'todos' && li.dataset.universo !== valor;
+    });
+    const lista = visibles(r);
+    const contador = r.querySelector('[data-contador]');
+    if (contador) contador.textContent = String(lista.length);
+    // Si el seleccionado quedó fuera del filtro, se pasa al primero visible.
+    if (!lista.some((b) => b.getAttribute('aria-pressed') === 'true') && lista[0]?.dataset.favorito) {
+      seleccionar(lista[0].dataset.favorito, { actualizarUrl: true });
+    }
+  }
+
+  function siguiente() {
+    const r = raiz();
+    if (!r) return;
+    const lista = visibles(r);
+    if (!lista.length) return;
+    const actual = lista.findIndex((b) => b.getAttribute('aria-pressed') === 'true');
+    const proximo = lista[(actual + 1) % lista.length];
+    if (proximo.dataset.favorito) seleccionar(proximo.dataset.favorito, { actualizarUrl: true });
+  }
+
+  function sincronizarConUrl() {
+    const r = raiz();
+    const id = new URL(location.href).searchParams.get('f');
+    const primero = r?.querySelector<HTMLButtonElement>('[data-favorito]')?.dataset.favorito;
+    const destino = id ?? primero;
+    if (destino) seleccionar(destino);
+  }
+
+  function iniciar() {
+    const r = raiz();
+    if (!r) return;
+    sincronizarConUrl();
+    r.addEventListener('click', (e) => {
+      const el = e.target as Element;
+      const fav = el.closest<HTMLButtonElement>('[data-favorito]');
+      if (fav?.dataset.favorito) return seleccionar(fav.dataset.favorito, { actualizarUrl: true });
+      const filtro = el.closest<HTMLButtonElement>('[data-filtro]');
+      if (filtro?.dataset.filtro) return filtrar(filtro.dataset.filtro);
+      if (el.closest('[data-siguiente]')) siguiente();
+    });
+  }
+
+  document.addEventListener('astro:page-load', iniciar);
+  window.addEventListener('popstate', () => {
+    if (raiz()) sincronizarConUrl();
+  });
+</script>
